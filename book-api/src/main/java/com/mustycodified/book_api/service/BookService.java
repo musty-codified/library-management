@@ -13,7 +13,6 @@ public interface BookService {
     List<BookResponseDto>getBooks();
     BookResponseDto editBook(Long id, BookRequestDto bookRequest);
     void deleteBook(Long id);
-    BookResponseDto borrowBook(Long id, String email);
-    BookResponseDto returnBook(Long id);
+
 
 }

@@ -7,11 +7,15 @@ import com.mustycodified.book_api.dto.response.BookResponseDto;
 import com.mustycodified.book_api.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/books")
@@ -29,5 +33,28 @@ public class BookController {
         return ResponseEntity.created(location).body(new ApiResponse<>(true, "Request successfully processed", responseDto));
     }
 
+    @GetMapping
+    public ResponseEntity<ApiResponse<ApiResponse.Wrapper<List<BookResponseDto>>>> fetchAllBooks(
+            @RequestParam(required = false) String searchText,
+            @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = "createdAt", required = false) String sortBy,
+            @RequestParam(value = "sortOrder", defaultValue = "desc", required = false) String sortOrder) {
 
+        Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Request successfully processed", bookService.getAllBooks(searchText, pageable)));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<BookResponseDto>> updateBook(@PathVariable(name = "id") Long id, @Valid @RequestBody BookRequestDto bookRequestDto) {
+        BookResponseDto responseDto = bookService.editBook(id, bookRequestDto);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Request successfully processed", responseDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteBook(@PathVariable(name = "id") Long id) {
+        bookService.deleteBook(id);
+        return ResponseEntity.noContent().build();
+    }
 }
