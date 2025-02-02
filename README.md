@@ -1,5 +1,5 @@
 # Library Management System
-The backend api for a fintech application
+The Source code for Library Management System. 
 
 `Built with Spring Boot, JavaFX, secured with Spring Security (JWT)`
 
