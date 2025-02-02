@@ -1,6 +1,8 @@
 package com.mustycodified.book_api.util;
 
+import com.mustycodified.book_api.dto.response.BookResponseDto;
 import com.mustycodified.book_api.dto.response.UserResponseDto;
+import com.mustycodified.book_api.entity.Book;
 import com.mustycodified.book_api.entity.User;
 import com.mustycodified.book_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +24,13 @@ public class CustomMapper {
                 .build();
     }
 
+    public BookResponseDto mapToDto(Book bookEntity) {
+        return BookResponseDto.builder()
+                .id(bookEntity.getId())
+                .title(bookEntity.getTitle())
+                .author(bookEntity.getAuthor())
+                .quantity(bookEntity.getQuantity())
+                .build();
+    }
 
 }
