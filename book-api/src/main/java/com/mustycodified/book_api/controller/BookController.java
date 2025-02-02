@@ -46,6 +46,10 @@ public class BookController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Request successfully processed", bookService.getAllBooks(searchText, pageable)));
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<ApiResponse<List<BookResponseDto>>> getBooks() {
+        return ResponseEntity.ok(new ApiResponse<>(true, "Request successfully processed", bookService.getBooks()));
+    }
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<BookResponseDto>> updateBook(@PathVariable(name = "id") Long id, @Valid @RequestBody BookRequestDto bookRequestDto) {
         BookResponseDto responseDto = bookService.editBook(id, bookRequestDto);
@@ -56,5 +60,16 @@ public class BookController {
     public ResponseEntity<ApiResponse<Void>> deleteBook(@PathVariable(name = "id") Long id) {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("{id}/{email}")
+    public ResponseEntity<ApiResponse<BookResponseDto>> borrowBook(@PathVariable (name = "id") Long id,
+                                                                   @PathVariable(name = "email") String email){
+        return ResponseEntity.ok().body( new ApiResponse<>(true, "Request successfully processed", bookService.borrowBook(id, email)));
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<ApiResponse<BookResponseDto>> returnBook( @PathVariable Long id){
+        return ResponseEntity.ok().body( new ApiResponse<>(true, "Request successfully processed", bookService.returnBook(id)));
     }
 }

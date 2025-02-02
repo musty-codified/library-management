@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface BookRepository extends JpaRepository<Book, Long> {
     Boolean existsByIsbn(String isbn);
     @Query("SELECT b FROM Book b WHERE " +
@@ -18,6 +20,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Page<Book> fetchAllBooks(
             @Param("searchText") String searchText,
             Pageable pageable);
+    Optional<Book> findByIsbn(String isbn);
 
 
 }

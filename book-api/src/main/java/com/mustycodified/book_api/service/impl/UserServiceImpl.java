@@ -8,6 +8,8 @@ import com.mustycodified.book_api.dto.response.LoginResponseDto;
 import com.mustycodified.book_api.dto.response.UserResponseDto;
 import com.mustycodified.book_api.entity.User;
 import com.mustycodified.book_api.enums.Roles;
+import com.mustycodified.book_api.exception.CustomValidationException;
+import com.mustycodified.book_api.exception.UserAlreadyExistException;
 import com.mustycodified.book_api.repository.UserRepository;
 import com.mustycodified.book_api.service.UserService;
 import com.mustycodified.book_api.util.AppUtil;
@@ -16,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,10 +45,10 @@ public class UserServiceImpl implements UserService {
         validateEmail(requestDto.getEmail());
         appUtil.validateEmailDomain(requestDto.getEmail());
         if (userRepository.existsByEmail(requestDto.getEmail())) {
-            throw new RuntimeException("User already exists");
+            throw new UserAlreadyExistException("User already exists");
         }
-        if (validatePhoneNumber(requestDto.getPhoneNumber())) {
-            throw new RuntimeException("Invalid phone number {" + requestDto.getPhoneNumber() + "}");
+        if (validatePhoneNumber(appUtil.getFormattedNumber(requestDto.getPhoneNumber()))) {
+            throw new CustomValidationException("Invalid phone number {" + requestDto.getPhoneNumber() + "}");
         }
 
        User newUser = appUtil.getMapper().convertValue(requestDto, User.class);
@@ -53,6 +56,8 @@ public class UserServiceImpl implements UserService {
                 .map(Objects::toString).collect(Collectors.joining(",")));
         newUser.setPhoneNumber(appUtil.getFormattedNumber(requestDto.getPhoneNumber()));
         newUser.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+        System.out.println(newUser.getPhoneNumber());
+
         newUser = userRepository.save(newUser);
         return mapper.mapToDto(newUser);
     }
@@ -63,13 +68,13 @@ public class UserServiceImpl implements UserService {
             Optional<User> userOptional = userRepository.findByEmail(adminLoginRequestDto.getEmail());
             if (userOptional.isEmpty()) {
                 log.error("User not found with email {}", adminLoginRequestDto.getEmail());
-                throw new RuntimeException("Invalid credentials");
+                throw new BadCredentialsException("Invalid credentials");
             }
 
             User user = userOptional.get();
             if (!passwordEncoder.matches(adminLoginRequestDto.getPassword(), user.getPassword())){
                 log.error("Bad credentials with email {}", adminLoginRequestDto.getEmail());
-                throw new RuntimeException("Invalid credentials");
+                throw new BadCredentialsException("Invalid credentials");
             }
 
             if (user.getRoles() == null) {
@@ -86,7 +91,7 @@ public class UserServiceImpl implements UserService {
                     .build();
 
         } catch (RuntimeException e){
-            throw new RuntimeException("Incorrect credentials");
+            throw new BadCredentialsException("Incorrect credentials");
 
         }
     }
@@ -94,11 +99,11 @@ public class UserServiceImpl implements UserService {
 
     private void validateEmail(String email) {
         if (!AppUtil.isEmailValid(email)) {
-            throw new RuntimeException("Invalid email format {" + email + "}");
+            throw new CustomValidationException("Invalid email format {" + email + "}");
         }
     }
 
-    private boolean validatePhoneNumber(String number) {
-        return userRepository.existsByPhoneNumber(number);
+    private boolean validatePhoneNumber(String formattedNumber) {
+        return userRepository.existsByPhoneNumber(formattedNumber);
     }
 }

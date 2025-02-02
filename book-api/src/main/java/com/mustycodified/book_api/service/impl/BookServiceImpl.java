@@ -3,13 +3,20 @@ package com.mustycodified.book_api.service.impl;
 import com.mustycodified.book_api.dto.request.BookRequestDto;
 import com.mustycodified.book_api.dto.response.ApiResponse;
 import com.mustycodified.book_api.dto.response.BookResponseDto;
+import com.mustycodified.book_api.dto.response.BorrowedBookRespDto;
 import com.mustycodified.book_api.entity.Book;
+import com.mustycodified.book_api.entity.BorrowedBook;
+import com.mustycodified.book_api.exception.BookAlreadyExistException;
+import com.mustycodified.book_api.exception.BookNotFoundException;
 import com.mustycodified.book_api.repository.BookRepository;
+import com.mustycodified.book_api.repository.BorrowedBookRepository;
 import com.mustycodified.book_api.service.BookService;
+import com.mustycodified.book_api.service.TransactionService;
 import com.mustycodified.book_api.util.CustomMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,11 +28,13 @@ import java.util.stream.Collectors;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final CustomMapper mapper;
+    private final TransactionService transactionService;
+    private final BorrowedBookRepository borrowedBookRepository;
 
     @Override
     public BookResponseDto addBook(BookRequestDto bookRequest) {
         if (bookRepository.existsByIsbn(bookRequest.getIsbn()))
-            throw new RuntimeException("Book already exists");
+            throw new BookAlreadyExistException("Book already exists");
 
         Book bookEntity = Book.builder()
                 .isbn(bookRequest.getIsbn())
@@ -44,7 +53,7 @@ public class BookServiceImpl implements BookService {
         Page<Book> userPage = bookRepository.fetchAllBooks(searchText != null && !searchText.isEmpty() ? searchText : null, pageable);
 
         if (userPage.isEmpty()) {
-            throw new RuntimeException("No Book Record was found");
+            throw new BookNotFoundException("No Book Record was found", HttpStatus.NOT_FOUND.toString());
         }
         List<BookResponseDto> responses = userPage.getContent().stream()
                 .map(mapper::mapToDto)
@@ -64,13 +73,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookResponseDto> getBooks() {
-        return List.of();
+        return bookRepository.findAll().stream().map(mapper::mapToDto).toList();
     }
 
     @Override
     public BookResponseDto editBook(Long id, BookRequestDto bookRequest) {
         Book existingBook = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found"));
+                .orElseThrow(() -> new BookNotFoundException("No Book Record was found", HttpStatus.NOT_FOUND.toString()));
 
         if (bookRequest.getAuthor() != null && !bookRequest.getAuthor().isEmpty()) {
             existingBook.setAuthor(bookRequest.getAuthor());
@@ -98,10 +107,39 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteBook(Long id) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found"));
+                .orElseThrow(() -> new BookNotFoundException("Book not found", HttpStatus.NOT_FOUND.toString()));
         if (!book.getBorrowedBooks().isEmpty())
             throw new RuntimeException("Book deletion failed as book is currently borrowed");
         bookRepository.delete(book);
+    }
+
+    @Override
+    public BookResponseDto borrowBook(Long bookId, String email) {
+        Book bookEntity = bookRepository.findById(bookId)
+                .orElseThrow(()-> new BookNotFoundException("Book not found", HttpStatus.NOT_FOUND.toString()));
+
+        if (bookEntity.getQuantity() <= 0)
+            throw new RuntimeException("Book is not in the shelf at the moment");
+        BorrowedBookRespDto borrowedBookRespDto = transactionService.createBorrowedBook(email, bookEntity);
+        BorrowedBook borrowedBook = mapper.mapToEntity(borrowedBookRespDto);
+        borrowedBookRepository.save(borrowedBook);
+        bookEntity.setQuantity(bookEntity.getQuantity() - 1);
+        bookEntity.getBorrowedBooks().add(borrowedBook);
+        Book updatedBookEntity = bookRepository.save(bookEntity);
+
+        return mapper.mapToDto(updatedBookEntity);
+    }
+
+    @Override
+    public BookResponseDto returnBook(Long borrowedBookId) {
+        BorrowedBook borrowedBook = borrowedBookRepository.findById(borrowedBookId)
+                .orElseThrow(()->new BookNotFoundException("Borrowed book not found", HttpStatus.NOT_FOUND.toString()));
+
+        Book bookEntity = borrowedBook.getBook();
+        bookEntity.setQuantity(bookEntity.getQuantity() + 1);
+        Book returnedBook = bookRepository.save(bookEntity);
+        borrowedBookRepository.delete(borrowedBook);
+        return mapper.mapToDto(returnedBook);
     }
 }
 

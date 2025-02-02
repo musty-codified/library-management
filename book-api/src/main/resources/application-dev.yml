@@ -28,10 +28,10 @@ access-control-list:
   permissions:
     - permission: "user.read"
       methods: ["GET"]
-      patterns: ["/users/**"]
+      patterns: ["/users/**", "/books/**"]
     - permission: "user.edit"
       methods: ["POST", "PUT"]
-      patterns: ["/users/**"]
+      patterns: ["/users/**", "/books/**"]
     - permission: "user.delete"
       methods: [ "DELETE"]
-      patterns: [ "/users/**" ]
+      patterns: [ "/users/**", "books/**"]
