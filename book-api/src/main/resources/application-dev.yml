@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+
+server:
+  servlet:
+    context-path: /library-app-ws/api/v1
+  port: 8000
+
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+jwt:
+  secret: ${JWT_SECRET:eab7efd5799142acb5f308ba2e54cdfa589bfc369f8c9a7bfe53ddab4f5421ce}
+  expiration: 3600
+
+access-control-list:
+  permissions:
+    - permission: "user.read"
+      methods: ["GET"]
+      patterns: ["/users/**"]
+    - permission: "user.edit"
+      methods: ["POST", "PUT"]
+      patterns: ["/users/**"]
+    - permission: "user.delete"
+      methods: [ "DELETE"]
+      patterns: [ "/users/**" ]
