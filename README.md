@@ -12,17 +12,20 @@
 
 ---
 
-## 2. Project Modules
-- book-api
-- book-ui
+## 2. Project Modules ##
+- book-api (Spring Boot Backend)
+- book-ui (JavaFX Frontend)
+
 
 ---
 
 ## 3. Running the application locally ##
 - **Clone the repository:** git clone [repo-link](https://github.com/musty-codified/library-management.git)
 - **Configure Environment:** Update `application.yml` with your H2 Database configurations.
-- **Build and run the backend project using maven:** mvn clean install
-- **Run the backend from the command line:** mvn spring-boot:run
+- **Build and run the backend project using maven:** 
+     `mvn clean install`
+- **Run the backend from the command line:** 
+    `mvn spring-boot:run`
 
 ---
 
@@ -30,14 +33,22 @@
 - The services expose REST APIs for managing books and transactions as per the task description document (TSD).
 - API endpoints are as follows :
 
-- http://localhost:8000/library-app-ws/api/v1/users (HTTP:POST)
-- http://localhost:8000/library-app-ws/api/v1/auth/login (HTTP:POST)
-- http://localhost:8000/library-app-ws/api/v1/books (HTTP:POST)
-- http://localhost:8000/library-app-ws/api/v1/books (HTTP:GET)
-- http://localhost:8000/library-app-ws/api/v1/books/{id} (HTTP:DELETE)
-- http://localhost:8000/library-app-ws/api/v1/books/{id} (HTTP:PUT)
-- http://localhost:8000/library-app-ws/api/v1/books/{id}/{email} (HTTP:POST)
-- http://localhost:8000/library-app-ws/api/v1/books/{id} (HTTP:POST)
+### User Authentication APIs ###
+
+- (HTTP:POST) http://localhost:8000/library-app-ws/api/v1/users 
+- (HTTP:POST) http://localhost:8000/library-app-ws/api/v1/auth/login 
+
+### Book Management APIs ###
+
+- (HTTP:POST) http://localhost:8000/library-app-ws/api/v1/books 
+- (HTTP:GET)  http://localhost:8000/library-app-ws/api/v1/books 
+- (HTTP:DELETE) http://localhost:8000/library-app-ws/api/v1/books/{id} 
+- (HTTP:PUT) http://localhost:8000/library-app-ws/api/v1/books/{id} 
+
+### Book Transactions APIs ###
+
+- (HTTP:POST) http://localhost:8000/library-app-ws/api/v1/books/{id}/{email} 
+- (HTTP:POST) http://localhost:8000/library-app-ws/api/v1/books/{id} 
 
 
 
