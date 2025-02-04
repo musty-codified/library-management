@@ -8,7 +8,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import org.mustycodified.bookui.model.Book;
 import org.mustycodified.bookui.service.RestClient;
 
@@ -77,6 +76,9 @@ public class BookController {
     private void addBook() {
         Book newBook = new Book(titleField.getText(), authorField.getText(), Double.parseDouble(priceField.getText()));
         RestClient.addBook(newBook);
+        titleField.clear();
+        authorField.clear();
+        priceField.clear();
 //        loadBooks();
     }
 
@@ -87,6 +89,9 @@ public class BookController {
             selectedBook.setAuthor(authorField.getText());
             selectedBook.setPrice(Double.parseDouble(priceField.getText()));
             RestClient.updateBook(selectedBook);
+            titleField.clear();
+            authorField.clear();
+            priceField.clear();
 //            loadBooks();
         }
     }
@@ -106,7 +111,6 @@ public class BookController {
     public HBox getForm() {
         return new HBox(titleField, authorField, priceField, addButton, updateButton, deleteButton, refreshButton);
     }
-
 
 
 }
