@@ -20,6 +20,7 @@
 ---
 
 ## 3. Running the application locally ##
+- **Ensure JavaFX SDK is installed on your machine**
 - **Clone the repository:** git clone [repo-link](https://github.com/musty-codified/library-management.git)
 - **Configure Environment:** Update `application.yml` with your H2 Database configurations.
 - **Build and run the backend project using maven:** 
@@ -50,8 +51,13 @@
 - (HTTP:POST) http://localhost:8000/library-app-ws/api/v1/books/{id}/{email} 
 - (HTTP:POST) http://localhost:8000/library-app-ws/api/v1/books/{id} 
 
-
-
+## 5. Running the Frontend (JavaFX) locally ##
+- **Navigate to the book-ui project::**
+    `cd book-ui`
+- **Build and run the backend project using maven:**
+  `mvn clean install`
+- **Run the backend from the command line:**
+  `mvn javafx:run`
 
 
 
