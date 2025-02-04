@@ -7,12 +7,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.mustycodified.bookui.model.Book;
 import org.mustycodified.bookui.service.RestClient;
 
-public class BookController {
 
+public class BookController {
     private TableView<Book> tableView = new TableView<>();
     private ObservableList<Book> books = FXCollections.observableArrayList();
     private TextField titleField = new TextField();
@@ -32,13 +33,16 @@ public class BookController {
 
     private void setupTable() {
         TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
+        titleColumn.setMinWidth(200);
         titleColumn.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
 
         TableColumn<Book, String> authorColumn = new TableColumn<>("Author");
         authorColumn.setCellValueFactory(cellData -> cellData.getValue().authorProperty());
+        authorColumn.setMinWidth(200);
 
         TableColumn<Book, String> priceColumn = new TableColumn<>("Price");
         priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asString());
+        priceColumn.setMinWidth(200);
 
         tableView.getColumns().addAll(titleColumn, authorColumn, priceColumn);
         tableView.setItems(books);
@@ -49,6 +53,12 @@ public class BookController {
         updateButton.setOnAction(e -> updateBook());
         deleteButton.setOnAction(e -> deleteBook());
 //        refreshButton.setOnAction(e -> loadBooks());
+            titleField.setPromptText("Title");
+            titleField.setMinWidth(100);
+            priceField.setPromptText("Price");
+            priceField.setMinWidth(100);
+            authorField.setPromptText("Author");
+            authorField.setMinWidth(100);
 
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -59,9 +69,15 @@ public class BookController {
         });
     }
 
+//    private void loadBooks() {
+//        List<Book> bookList = RestClient.fetchBooks();
+//        books.setAll(bookList);
+//    }
+
     private void addBook() {
         Book newBook = new Book(titleField.getText(), authorField.getText(), Double.parseDouble(priceField.getText()));
         RestClient.addBook(newBook);
+//        loadBooks();
     }
 
     private void updateBook() {
@@ -71,6 +87,7 @@ public class BookController {
             selectedBook.setAuthor(authorField.getText());
             selectedBook.setPrice(Double.parseDouble(priceField.getText()));
             RestClient.updateBook(selectedBook);
+//            loadBooks();
         }
     }
 
@@ -78,6 +95,7 @@ public class BookController {
         Book selectedBook = tableView.getSelectionModel().getSelectedItem();
         if (selectedBook != null) {
             RestClient.deleteBook(selectedBook.getId());
+//            loadBooks();
         }
     }
 
@@ -85,9 +103,10 @@ public class BookController {
         return tableView;
     }
 
-    public VBox getForm() {
-        return new VBox(titleField, authorField, priceField, addButton, updateButton, deleteButton, refreshButton);
+    public HBox getForm() {
+        return new HBox(titleField, authorField, priceField, addButton, updateButton, deleteButton, refreshButton);
     }
+
 
 
 }

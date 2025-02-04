@@ -1,5 +1,4 @@
 package org.mustycodified.bookui.service;
-
 import org.mustycodified.bookui.model.ApiResponse;
 import org.mustycodified.bookui.model.Book;
 import org.springframework.http.*;
@@ -21,6 +20,14 @@ public class RestClient {
     }
 
     static HttpEntity<Book> entity ;
+
+//    public static List<Book> fetchBooks() {
+//        entity  = new HttpEntity<>(getHttpHeaders());
+//        ApiResponse response  = restTemplate.exchange(BASE_URL, HttpMethod.GET, entity, ApiResponse.class).getBody();
+//        Book[] books = (Book[]) Objects.requireNonNull(response).getData();
+//        return books != null ? Arrays.asList(books) : List.of();
+//    }
+
 
     public static void addBook(Book book) {
         entity  = new HttpEntity<>(getHttpHeaders());

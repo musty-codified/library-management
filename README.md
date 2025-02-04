@@ -21,8 +21,6 @@ The Source code for Library Management System.
 -   Ensure Maven and Memcached is installed and running on your machine before you run this service.
 - **Clone the repository:** git clone [repo-link](https://github.com/musty-codified/library-management.git)
 
-       cd book-api
-       cd book-ui
 - **Configure Environment:** Update `application.yml` with your H2 Database configurations.
 - **Build the project using maven:** mvn clean install
 - **Run the application from the command line:** mvn spring-boot:run

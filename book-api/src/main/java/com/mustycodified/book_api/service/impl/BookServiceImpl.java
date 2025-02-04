@@ -89,7 +89,7 @@ public class BookServiceImpl implements BookService {
         }
 
         if (bookRequest.getIsbn() != null) {
-            existingBook.setTitle(bookRequest.getIsbn());
+            existingBook.setIsbn(bookRequest.getIsbn());
         }
         if (bookRequest.getQuantity() != null) {
             existingBook.setQuantity(bookRequest.getQuantity());
