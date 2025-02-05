@@ -52,8 +52,8 @@
 
 ### 4.3 Book Transactions APIs ###
 
-- (HTTP:POST) http://localhost:8000/library-app-ws/api/v1/books/{id}/{email}
-- (HTTP:POST) http://localhost:8000/library-app-ws/api/v1/books/{id}
+- (HTTP:POST) [Borrow a Book](http://localhost:8000/library-app-ws/api/v1/books/{id}/{email})
+- (HTTP:POST) [Return a Book](http://localhost:8000/library-app-ws/api/v1/books/{id})
 
 ---
 
