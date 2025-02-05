@@ -1,6 +1,7 @@
 package org.mustycodified.bookui.service;
 import org.mustycodified.bookui.model.ApiResponse;
 import org.mustycodified.bookui.model.Book;
+import org.mustycodified.bookui.model.User;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -42,6 +43,12 @@ public class RestClient {
 
     public static void deleteBook(Long id) {
         Objects.requireNonNull(restTemplate.exchange(BASE_URL + "/" + id, HttpMethod.DELETE, entity, ApiResponse.class).getBody()).getData();
+    }
+
+    public static void registerUser(User user) {
+        entity  = new HttpEntity<>(getHttpHeaders());
+        ApiResponse response =  restTemplate.exchange(BASE_URL, HttpMethod.POST, entity, ApiResponse.class).getBody();
+        Objects.requireNonNull(response).getData();
     }
 }
 
