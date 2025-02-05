@@ -28,8 +28,9 @@
     `cd book-ui`
 - **Configure environment:** Update `application.yml` with your H2 Database configurations.
 - **Build and run the backend project using maven:**
+  
   `mvn clean install`
-
+ 
   `mvn spring-boot:run`
 
 ---
@@ -64,8 +65,9 @@
 - **Navigate to the book-ui project::**
   `cd book-ui`
 - **Build and run the frontend project using maven:**
+  
   `mvn clean install`
-- 
+
   `mvn javafx:run`
 
 
