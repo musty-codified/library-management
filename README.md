@@ -6,7 +6,7 @@
 
 - **Java 17+**
 - **JavaFX 21**
-- **Spring Boot 3.4.1**
+- **Spring Boot 3.4.2**
 - **Maven 3.8+**
 - **H2 Database**
 - **JWT**
