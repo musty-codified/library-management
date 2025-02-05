@@ -7,14 +7,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.mustycodified.bookui.model.request.Book;
+import org.mustycodified.bookui.model.response.BookResponse;
 import org.mustycodified.bookui.service.RestClient;
 
 import java.util.List;
 
 public class BookController {
-    @FXML private TableView<Book> bookTable;
-    private ObservableList<Book> books = FXCollections.observableArrayList();
+    @FXML private TableView<BookResponse> bookTable;
+    private ObservableList<BookResponse> books = FXCollections.observableArrayList();
     @FXML private TextField titleField;
     @FXML private TextField authorField;
     @FXML private TextField priceField;
@@ -30,44 +32,38 @@ public class BookController {
     @FXML
     private Button refreshButton = new Button("Refresh");
 
-    TableColumn<Book, String> titleColumn;
-    TableColumn<Book, String> authorColumn;
-    TableColumn<Book, String> priceColumn;
-    TableColumn<Book, String> quantityColumn;
-    TableColumn<Book, String> isbnColumn;
+    @FXML
+    TableColumn<BookResponse, String> titleColumn;
+    @FXML
+    TableColumn<BookResponse, String> authorColumn;
+    @FXML
+    TableColumn<BookResponse, String> quantityColumn;
+
     public BookController() {
     }
 
     @FXML
     public void initialize() {
-        setupTable();
-        setupActions();
         loadBooks();
+        setupTable();
     }
 
+
     private void setupTable() {
-        titleColumn = new TableColumn<>("Title");
+        // Define the Title column
         titleColumn.setMinWidth(200);
-        titleColumn.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 
-        authorColumn = new TableColumn<>("Author");
-        authorColumn.setCellValueFactory(cellData -> cellData.getValue().authorProperty());
+        // Define the Author column
         authorColumn.setMinWidth(200);
+        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
 
-        priceColumn = new TableColumn<>("Price");
-        priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asString());
-        priceColumn.setMinWidth(200);
+        // Define the Quantity column
+        quantityColumn.setMinWidth(200);
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        quantityColumn = new TableColumn<>("Quantity");
-        priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asString());
-        priceColumn.setMinWidth(200);
-
-        isbnColumn = new TableColumn<>("ISBN");
-        priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asString());
-        priceColumn.setMinWidth(200);
-
-        bookTable.getColumns().addAll(titleColumn, authorColumn, priceColumn, quantityColumn, isbnColumn);
         bookTable.setItems(books);
+
     }
 
     private void setupActions() {
@@ -81,16 +77,14 @@ public class BookController {
             if (newSelection != null) {
                 titleField.setText(newSelection.getTitle());
                 authorField.setText(newSelection.getAuthor());
-                priceField.setText(newSelection.getPrice().toString());
                 quantityField.setText(newSelection.getQuantity().toString());
-                quantityField.setText(newSelection.getIsbn());
             }
         });
     }
 
     //Fetch All Books
     @FXML private void loadBooks() {
-        List<Book> bookList = RestClient.fetchBooks();
+        List<BookResponse> bookList = RestClient.fetchBooks();
         books.setAll(bookList);
     }
 
@@ -109,19 +103,18 @@ public class BookController {
 
     //Update Book details
     @FXML private void updateBook() {
-        Book selectedBook = bookTable.getSelectionModel().getSelectedItem();
+        BookResponse selectedBook = bookTable.getSelectionModel().getSelectedItem();
         if (selectedBook != null) {
             selectedBook.setTitle(titleField.getText());
             selectedBook.setAuthor(authorField.getText());
-            selectedBook.setPrice(Double.parseDouble(priceField.getText()));
-            RestClient.updateBook(selectedBook);
+            selectedBook.setQuantity(Integer.parseInt(quantityField.getText()));
             loadBooks();
         }
     }
 
     //Delete Book
     @FXML private void deleteBook() {
-        Book selectedBook = bookTable.getSelectionModel().getSelectedItem();
+        BookResponse selectedBook = bookTable.getSelectionModel().getSelectedItem();
         if (selectedBook != null) {
             RestClient.deleteBook(selectedBook.getId());
             loadBooks();

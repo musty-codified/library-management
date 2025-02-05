@@ -13,9 +13,7 @@
         <columns>
             <TableColumn text="Title" fx:id="titleColumn"/>
             <TableColumn text="Author" fx:id="authorColumn"/>
-            <TableColumn text="Isbn" fx:id="isbnColumn"/>
             <TableColumn text="Quantity" fx:id="quantityColumn"/>
-            <TableColumn text="Price" fx:id="priceColumn"/>
         </columns>
     </TableView>
 

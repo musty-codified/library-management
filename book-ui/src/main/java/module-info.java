@@ -19,4 +19,6 @@ module org.mustycodified.bookui {
     opens org.mustycodified.bookui.controller to javafx.fxml;
     exports org.mustycodified.bookui.model.request;
     opens org.mustycodified.bookui.model.request to javafx.fxml;
+    exports org.mustycodified.bookui.model.response;
+    opens org.mustycodified.bookui.model.response to javafx.base;
 }
