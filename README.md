@@ -20,7 +20,7 @@
 
 ---
 
-## 3. Running the Backend ##
+## 3. Running the Backend (Spring Boot) ##
 
 - **Ensure JDK 17+ is installed on your machine**
 - **Clone the repository:** git clone (https://github.com/musty-codified/library-management.git)
