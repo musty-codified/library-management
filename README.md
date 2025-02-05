@@ -24,7 +24,7 @@
 
 - **Ensure JavaFX SDK is installed on your machine**
 - **Clone the repository:** git clone [repo-link](https://github.com/musty-codified/library-management.git)
-- - **Navigate to the book-api project::**
+- **Navigate to the book-api project::**
     `cd book-ui`
 - **Configure environment:** Update `application.yml` with your H2 Database configurations.
 - **Build and run the backend project using maven:**
