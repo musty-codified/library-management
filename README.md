@@ -2,7 +2,7 @@
 
 `Backend built with Spring Boot, frontend with JavaFX, and secured with Spring Security (JWT)`
 
-## 1. Project Setup ##
+## 1. Prerequisites ##
 
 - **Java 17+**
 - **JavaFX 21**
