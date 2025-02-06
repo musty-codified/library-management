@@ -46,6 +46,8 @@ public class BookController {
     public void initialize() {
         loadBooks();
         setupTable();
+        setupActions();  // Set up button actions and selection listener
+
     }
 
 
@@ -67,19 +69,22 @@ public class BookController {
     }
 
     private void setupActions() {
+
+        bookTable.getSelectionModel().selectedItemProperty()
+                .addListener((obs, oldSelection, newSelection) -> {
+                    if (newSelection != null) {
+                        titleField.setText(newSelection.getTitle());
+                        authorField.setText(newSelection.getAuthor());
+                        quantityField.setText(newSelection.getQuantity().toString());
+                    }
+                });
+
         addButton.setOnAction(e -> addBook());
         updateButton.setOnAction(e -> updateBook());
         deleteButton.setOnAction(e -> deleteBook());
         refreshButton.setOnAction(e -> loadBooks());
 
-        bookTable.getSelectionModel().selectedItemProperty()
-                .addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                titleField.setText(newSelection.getTitle());
-                authorField.setText(newSelection.getAuthor());
-                quantityField.setText(newSelection.getQuantity().toString());
-            }
-        });
+
     }
 
     //Fetch All Books
@@ -108,6 +113,17 @@ public class BookController {
             selectedBook.setTitle(titleField.getText());
             selectedBook.setAuthor(authorField.getText());
             selectedBook.setQuantity(Integer.parseInt(quantityField.getText()));
+
+            // Convert BookResponse to Book for the backend request
+            Book bookToUpdate = new Book(
+                    selectedBook.getTitle(),
+                    selectedBook.getAuthor(),
+                    "",
+                    selectedBook.getQuantity(),
+                    0.0
+            );
+            bookToUpdate.setId(selectedBook.getId());
+            RestClient.updateBook(bookToUpdate);
             loadBooks();
         }
     }
