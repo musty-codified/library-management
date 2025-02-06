@@ -2,13 +2,9 @@ package org.mustycodified.bookui.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.mustycodified.bookui.model.ApiResponse;
 import org.mustycodified.bookui.model.request.Book;
-import org.mustycodified.bookui.model.request.Login;
 import org.mustycodified.bookui.model.request.User;
 import org.mustycodified.bookui.model.response.BookResponse;
-import org.mustycodified.bookui.model.response.LoginResponse;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -56,23 +52,25 @@ public class RestClient {
     }
 
     public static void addBook(Book book) {
+        String addBookUrl = String.format("%s/books", BASE_URL);
         entity  = new HttpEntity<>(book, getHttpHeaders());
-        restTemplate.exchange(BASE_URL + "/books", HttpMethod.POST, entity, String.class).getBody();
+        restTemplate.exchange(addBookUrl, HttpMethod.POST, entity, String.class).getBody();
     }
 
     public static void updateBook(Book book) {
+        String updateBookUrl = String.format("%s/books/%s", BASE_URL, book.getId());
         entity  = new HttpEntity<>(book, getHttpHeaders());
-        restTemplate.exchange(BASE_URL + "/books/" + book.getId(), HttpMethod.PUT, entity, String.class).getBody();
+        restTemplate.exchange(updateBookUrl, HttpMethod.PUT, entity, String.class).getBody();
 
     }
     public static void deleteBook(Long id) {
+        String deleteBookUrl = String.format("%s/books/%s", BASE_URL, id);
         entity  = new HttpEntity<>(getHttpHeaders());
-        restTemplate.exchange(BASE_URL + "/books/" + id, HttpMethod.DELETE, entity, String.class).getBody();
+        restTemplate.exchange(deleteBookUrl, HttpMethod.DELETE, entity, String.class).getBody();
     }
 
     public static void registerUser(User user) {
-        String registerUrl = BASE_URL + "/users";
-
+        String registerUrl = String.format("%s/users", BASE_URL);
         // Prepare request body
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

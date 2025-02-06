@@ -22,8 +22,7 @@ public class ProxyClient {
     private static final Log log = LogFactory.getLog(ProxyClient.class);
 
     public static boolean loginUser(Login login) {
-        String loginUrl = BASE_URL + "/auth/login";
-
+        String loginUrl = String.format("%s/auth/login", BASE_URL);
         // Prepare request body
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -33,7 +32,7 @@ public class ProxyClient {
         HashMap<String, Object> responseMap = (HashMap<String, Object>) restTemplate.exchange(loginUrl, HttpMethod.POST, request, Map.class).getBody();
         LoginResponse loginResponse = parseResponse(responseMap);
         AUTH_TOKEN = loginResponse.getAccessToken();
-        System.out.println(AUTH_TOKEN);
+        log.info(AUTH_TOKEN);
         return Boolean.TRUE.equals(responseMap.get("success"));
     }
 
