@@ -23,9 +23,9 @@
 ## 3. Running the Backend (Spring Boot) ##
 
 - **Ensure JDK 17+ is installed on your machine**
-- **Clone the repository:** git clone (https://github.com/musty-codified/library-management.git)
+- **Clone the repository:** git clone https://github.com/musty-codified/library-management.git
 - **Navigate to the book-api project::**
-    `cd book-ui`
+    `cd book-api`
 - **Configure environment:** Update `application.yml` with your H2 Database configurations.
 - **Build and run the backend project using maven:**
   
