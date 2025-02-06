@@ -31,7 +31,6 @@ public class ProxyClient {
         // Prepare request body
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-//            String body = String.format("{\"email\":\"%s\", \"password\":\"%s\"}", email, password);
 
         // Send request
         HttpEntity<Login> request = new HttpEntity<>(login, headers);
@@ -39,9 +38,7 @@ public class ProxyClient {
         LoginResponse loginResponse = parseResponse(responseMap);
         AUTH_TOKEN = loginResponse.getAccessToken();
         System.out.println(AUTH_TOKEN);
-
-
-        return false;
+        return Boolean.TRUE.equals(responseMap.get("success"));
     }
 
     public static HttpHeaders getHttpHeaders() {
@@ -60,13 +57,22 @@ public class ProxyClient {
         if (data == null) {
             throw new IllegalStateException("Missing data");
         }
-        return new LoginResponse(
-                (LongProperty) data.get("id"),
-                ((StringProperty) data.get("firstName")),
-                ((StringProperty) data.get("lastName")),
-                ((StringProperty) data.get("accessToken")),
-                ((LongProperty) data.get("expiresIn")));
 
+        // Extract raw values from the response map
+        Long id = ((Number) data.get("id")).longValue();
+        String firstName = (String) data.get("firstName");
+        String lastName = (String) data.get("lastName");
+        String accessToken = (String) data.get("accessToken");
+        Long expiresIn = ((Number) data.get("expiresIn")).longValue();
+
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setId(id);
+        loginResponse.setFirstName(firstName);
+        loginResponse.setLastName(lastName);
+        loginResponse.setAccessToken(accessToken);
+        loginResponse.setExpiresIn(expiresIn);
+
+        return loginResponse;
     }
 
 

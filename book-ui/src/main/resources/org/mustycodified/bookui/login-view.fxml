@@ -1,7 +1,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+<VBox spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.mustycodified.bookui.controller.LoginController">
     <TextField fx:id="emailField" promptText="Email"/>
     <TextField fx:id="passwordField" promptText="Password"/>

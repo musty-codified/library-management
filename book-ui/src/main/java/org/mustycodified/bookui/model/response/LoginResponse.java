@@ -13,6 +13,8 @@ public class LoginResponse {
     private StringProperty accessToken = new SimpleStringProperty();
     private LongProperty expiresIn = new SimpleLongProperty();
 
+    public LoginResponse() {
+    }
 
     public LoginResponse(LongProperty id, StringProperty firstName, StringProperty lastName, StringProperty accessToken, LongProperty expiresIn) {
         this.id = id;
@@ -22,7 +24,7 @@ public class LoginResponse {
         this.expiresIn = expiresIn;
     }
 
-    public long getId() {
+    public Long getId() {
         return id.get();
     }
 
@@ -30,7 +32,7 @@ public class LoginResponse {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id.set(id);
     }
 
@@ -70,7 +72,7 @@ public class LoginResponse {
         this.accessToken.set(accessToken);
     }
 
-    public long getExpiresIn() {
+    public Long getExpiresIn() {
         return expiresIn.get();
     }
 
@@ -78,7 +80,7 @@ public class LoginResponse {
         return expiresIn;
     }
 
-    public void setExpiresIn(long expiresIn) {
+    public void setExpiresIn(Long expiresIn) {
         this.expiresIn.set(expiresIn);
     }
 }

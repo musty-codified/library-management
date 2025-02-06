@@ -8,6 +8,7 @@ import org.mustycodified.bookui.model.request.Book;
 import org.mustycodified.bookui.model.request.Login;
 import org.mustycodified.bookui.model.request.User;
 import org.mustycodified.bookui.model.response.BookResponse;
+import org.mustycodified.bookui.model.response.LoginResponse;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -55,29 +56,30 @@ public class RestClient {
     }
 
     public static void addBook(Book book) {
-        entity  = new HttpEntity<>(getHttpHeaders());
-      ApiResponse response =  restTemplate.exchange(BASE_URL, HttpMethod.POST, entity, ApiResponse.class).getBody();
-      Objects.requireNonNull(response).getData();
+        entity  = new HttpEntity<>(book, getHttpHeaders());
+        restTemplate.exchange(BASE_URL + "/users", HttpMethod.POST, entity, String.class).getBody();
     }
 
     public static void updateBook(Book book) {
-        Objects.requireNonNull(restTemplate.exchange(BASE_URL + "/" + book.getId(), HttpMethod.PUT, entity, ApiResponse.class).getBody()).getData();
+        entity  = new HttpEntity<>(book, getHttpHeaders());
+        restTemplate.exchange(BASE_URL + "/" + book.getId(), HttpMethod.PUT, entity, String.class).getBody();
 
     }
     public static void deleteBook(Long id) {
-        Objects.requireNonNull(restTemplate.exchange(BASE_URL + "/" + id, HttpMethod.DELETE, entity, ApiResponse.class).getBody()).getData();
+        restTemplate.exchange(BASE_URL + "/" + id, HttpMethod.DELETE, entity, String.class).getBody();
     }
 
     public static void registerUser(User user) {
-        entity  = new HttpEntity<>(getHttpHeaders());
-        ApiResponse response =  restTemplate.exchange(BASE_URL, HttpMethod.POST, entity, ApiResponse.class).getBody();
-        Objects.requireNonNull(response).getData();
+        String registerUrl = BASE_URL + "/users";
+
+        // Prepare request body
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Send request
+        HttpEntity<User> request = new HttpEntity<>(user, headers);
+         restTemplate.exchange(registerUrl, HttpMethod.POST, request, String.class).getBody();
     }
 
-    public static void loginUser(Login login) {
-        entity  = new HttpEntity<>(getHttpHeaders());
-        ApiResponse response =  restTemplate.exchange(BASE_URL, HttpMethod.POST, entity, ApiResponse.class).getBody();
-        Objects.requireNonNull(response).getData();
-    }
 }
 

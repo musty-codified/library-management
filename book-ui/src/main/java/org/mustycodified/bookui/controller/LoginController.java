@@ -15,7 +15,7 @@ public class LoginController {
     @FXML
     private void loginUser() {
         Login login = new Login(emailField.getText(), passwordField.getText());
-      boolean loginSuccess =  ProxyClient.loginUser(login);
+        boolean loginSuccess =  ProxyClient.loginUser(login);
         emailField.clear();
         passwordField.clear();
         if ( loginSuccess) {

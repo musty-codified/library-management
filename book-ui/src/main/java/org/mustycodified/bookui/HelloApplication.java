@@ -22,7 +22,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
 //        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/org/mustycodified/bookui/main-view.fxml"));
         SceneManager.setPrimaryStage(stage);
-        SceneManager.switchScene("book-view.fxml", "Library Management System - User Registration");
+        SceneManager.switchScene("register-view.fxml", "Library Management System - User Registration");
 
     }
 
