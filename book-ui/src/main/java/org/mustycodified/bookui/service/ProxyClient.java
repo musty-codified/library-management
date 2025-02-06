@@ -1,8 +1,5 @@
 package org.mustycodified.bookui.service;
 
-
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.StringProperty;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mustycodified.bookui.model.request.Login;
@@ -15,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class ProxyClient {
 
