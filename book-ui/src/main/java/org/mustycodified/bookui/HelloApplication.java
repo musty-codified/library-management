@@ -14,7 +14,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         SceneManager.setPrimaryStage(stage);
-        SceneManager.switchScene("book-view.fxml", "Library Management System - User Registration");
+        SceneManager.switchScene("login-view.fxml", "Library Management System - User Registration");
 
     }
 

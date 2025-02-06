@@ -39,6 +39,7 @@ public class ProxyClient {
 
     public static HttpHeaders getHttpHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
+        System.out.println(AUTH_TOKEN);
         httpHeaders.add("Authorization", "Bearer " + AUTH_TOKEN);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         return httpHeaders;

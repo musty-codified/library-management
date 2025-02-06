@@ -62,11 +62,12 @@ public class RestClient {
 
     public static void updateBook(Book book) {
         entity  = new HttpEntity<>(book, getHttpHeaders());
-        restTemplate.exchange(BASE_URL + "/books" + book.getId(), HttpMethod.PUT, entity, String.class).getBody();
+        restTemplate.exchange(BASE_URL + "/books/" + book.getId(), HttpMethod.PUT, entity, String.class).getBody();
 
     }
     public static void deleteBook(Long id) {
-        restTemplate.exchange(BASE_URL + "/books" + id, HttpMethod.DELETE, entity, String.class).getBody();
+        entity  = new HttpEntity<>(getHttpHeaders());
+        restTemplate.exchange(BASE_URL + "/books/" + id, HttpMethod.DELETE, entity, String.class).getBody();
     }
 
     public static void registerUser(User user) {
