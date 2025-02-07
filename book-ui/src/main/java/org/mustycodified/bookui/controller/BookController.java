@@ -2,6 +2,7 @@ package org.mustycodified.bookui.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -22,6 +23,7 @@ public class BookController {
     @FXML private TextField priceField;
     @FXML private TextField quantityField;
     @FXML private TextField isbnField;
+    @FXML private TextField searchField;
 
     @FXML
     private Button addButton;
@@ -31,6 +33,9 @@ public class BookController {
     private Button deleteButton = new Button("Delete");
     @FXML
     private Button refreshButton = new Button("Refresh");
+//    @FXML
+    @FXML
+    private Button searchButton = new Button("Search");
 
     @FXML
     TableColumn<BookResponse, String> titleColumn;
@@ -49,7 +54,6 @@ public class BookController {
         setupActions();  // Set up button actions and selection listener
 
     }
-
 
     private void setupTable() {
         // Define the Title column
@@ -84,9 +88,19 @@ public class BookController {
         deleteButton.setOnAction(e -> deleteBook());
         refreshButton.setOnAction(e -> loadBooks());
 
+        // Search functionality
+        searchButton.setOnAction(e -> {
+            String searchText = searchField.getText();
+            searchBooks(searchText); // Pass the entered search text to the search method
+        });
 
     }
 
+    //Search Books
+    @FXML public void searchBooks(String searchText) {
+        List<BookResponse> bookList = RestClient.searchBooks(searchText);
+        books.setAll(bookList);
+    }
     //Fetch All Books
     @FXML private void loadBooks() {
         List<BookResponse> bookList = RestClient.fetchBooks();
@@ -137,4 +151,8 @@ public class BookController {
         }
     }
 
+    public void searchBooks(ActionEvent actionEvent) {
+            String searchText = searchField.getText();
+            searchBooks(searchText);
+    }
 }

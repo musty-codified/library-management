@@ -19,8 +19,9 @@ public class RestClient {
     static HttpEntity<Book> entity ;
 
     public static List<BookResponse> fetchBooks() {
+        String fetchUrl = String.format("%s/books/list", BASE_URL);
         entity = new HttpEntity<>(getHttpHeaders());
-        String jsonString = restTemplate.exchange(BASE_URL + "/books/list", HttpMethod.GET, entity, String.class).getBody();
+        String jsonString = restTemplate.exchange(fetchUrl, HttpMethod.GET, entity, String.class).getBody();
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> responseMap = null;
         List<Map<String, Object>> mapList=null;
@@ -35,6 +36,25 @@ public class RestClient {
         return parseBook(mapList);
     }
 
+    public static List<BookResponse> searchBooks(String searchText) {
+        String searchUrl = String.format("%s/books?searchText=" + (searchText != null ? searchText:""),  BASE_URL);
+        System.out.println(searchUrl);
+        entity = new HttpEntity<>(getHttpHeaders());
+        String jsonString = restTemplate.exchange(searchUrl, HttpMethod.GET, entity, String.class).getBody();
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> responseMap = null;
+        Map<String, Object> dataMap = null;
+        List<Map<String, Object>> mapList = null;
+        try {
+            responseMap = mapper.readValue(jsonString, new TypeReference<>(){});
+            dataMap = (Map<String, Object>)responseMap.get("data");
+            mapList = (List<Map<String, Object>>) dataMap.get("content");
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return parseBook(mapList);
+    }
     private static List<BookResponse> parseBook(List<Map<String, Object>> mapList) {
         List<BookResponse> bookList = new ArrayList<>();
 
@@ -50,6 +70,7 @@ public class RestClient {
         return bookList;
 
     }
+
 
     public static void addBook(Book book) {
         String addBookUrl = String.format("%s/books", BASE_URL);
