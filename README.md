@@ -79,19 +79,12 @@ The REST API endpoints are prefixed with `/library-app-ws/api/v1` due to the con
 
 ## 6. Additional Notes
 
-### 6.1 Default Admin Credentials
-If an admin account is preconfigured, provide login details:
-```sh
-Email: admin@library.com
-Password: admin123
-```
-
-### 6.2 Database Access
+### 6.1 Database Access
 The H2 database can be accessed via:
 - **URL:** `http://localhost:8000/h2-console`
-- **JDBC URL:** `jdbc:h2:mem:library_db`
+- **JDBC URL:** `jdbc:h2:mem:test_db`
 
-### 6.3 API Authentication
+### 6.2 API Authentication
 - Most API endpoints require a **JWT token** for access.
 - Obtain a token via the **User Login API** and pass it in the request header:
   ```sh
@@ -100,29 +93,14 @@ The H2 database can be accessed via:
 
 ---
 
-## 8. Common Issues & Debugging
+## 7. Common Issues & Debugging
 
-### 8.1 Backend Port Already in Use
+### 7.1 Backend Port Already in Use
 If port `8000` is occupied, change the port in `application.yml`:
 ```yaml
 server:
   port: 8081
 ```
-
-### 8.2 JavaFX Not Found Error
-Ensure you have installed JavaFX and added it to the **`classpath`**.
-
-### 8.3 `mvn javafx:run` Fails
-Try adding the JavaFX SDK path explicitly:
-```sh
-export PATH_TO_FX=/path/to/javafx-sdk
-mvn javafx:run -f pom.xml
-```
-
----
-
-## 9. License
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 ---
 
