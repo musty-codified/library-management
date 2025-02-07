@@ -129,9 +129,7 @@ public class BookController {
             String searchText = searchField.getText();
             searchBooks(searchText, currentPage, totalPages); // Pass the entered search text to the search method
         });
-        pageLabel.setText("Page " + currentPage + " of " + totalPages);
-        prevButton.setDisable(currentPage <= 1);
-        nextButton.setDisable(currentPage >= totalPages);
+
     }
 
     //Search Books with pagination
@@ -156,6 +154,9 @@ public class BookController {
         totalPages = bookList.getTotalPages();
         currentPage = bookList.getCurrentPage();
         System.out.println(bookList);
+        pageLabel.setText("Page " + currentPage + " of " + totalPages);
+        prevButton.setDisable(currentPage <= 1);
+        nextButton.setDisable(currentPage >= totalPages);
 
     }
 
