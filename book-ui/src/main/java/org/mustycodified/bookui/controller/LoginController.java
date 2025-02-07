@@ -19,7 +19,7 @@ public class LoginController {
         emailField.clear();
         passwordField.clear();
         if ( loginSuccess) {
-            SceneManager.switchScene("book-view.fxml", "Book Table List");
+            SceneManager.switchScene("book-view.fxml", "Library Management System");
         } else {
             showAlert("Login Failed", "Invalid email or password. Please try again.");
 

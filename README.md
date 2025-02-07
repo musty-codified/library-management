@@ -8,7 +8,7 @@
 - **JavaFX 21**
 - **Spring Boot 3.4.2**
 - **Maven 3.8+**
-- **H2 Database**
+- **H2 Database** (Embedded, no separate installation needed)
 - **JWT**
 
 ---
@@ -23,49 +23,48 @@
 ## 3. Running the Backend (Spring Boot) ##
 
 - **Ensure JDK 17+ is installed on your machine**
-- **Clone the repository:** git clone https://github.com/musty-codified/library-management.git
+- **Clone the repository:**
+  `git clone https://github.com/musty-codified/library-management.git`
 - **Navigate to the book-api project::**
-    `cd book-api`
+  `cd book-api`
 - **Configure environment:** Update `application.yml` with your H2 Database configurations.
 - **Build and run the backend project using maven:**
-  
+
   `mvn clean install`
- 
+
   `mvn spring-boot:run`
 
 ---
 
 ## 4. API Documentation ##
-
-- The service expose REST APIs for managing books as per the task description document (TSD).
-- I have included user Authorization APIs and Transaction management
-- The API endpoints are as follows :
+- The service exposes REST APIs for managing books. All API endpoints are now prefixed with `/library-app-ws/api/v1` due to the context-path setting.
 
 ### 4.1 User Authentication APIs ###
 
-- (POST) [Register  User](http://localhost:8000/library-app-ws/api/v1/users)
-- (POST) [User Login](http://localhost:8000/library-app-ws/api/v1/auth/login)
+- (POST) [Register  User](http://localhost:8000/library-app-ws/api/v1/users) `/library-app-ws/api/v1/users`
+- (POST) [User Login](http://localhost:8000/library-app-ws/api/v1/auth/login) `/library-app-ws/api/v1/auth/login`
 
 ### 4.2 Book Management APIs ###
 
-- (POST) [Add a Book](http://localhost:8000/library-app-ws/api/v1/books)
-- (GET)  [Fetch all Books with optional filtering and pagination](http://localhost:8000/library-app-ws/api/v1/books)
-- (DELETE) [Delete a Book](http://localhost:8000/library-app-ws/api/v1/books/{id})
-- (PUT) [Update book Details](http://localhost:8000/library-app-ws/api/v1/books/{id})
+- (POST) [Add a Book](http://localhost:8000/library-app-ws/api/v1/books) `/library-app-ws/api/v1/books`
+- (GET)  [Fetch all Books](http://localhost:8000/library-app-ws/api/v1/books)  `/library-app-ws/api/v1/books?pageNumber=1&pageSize=2&searchText=Hitchhiker`
+- (DELETE) [Delete a Book](http://localhost:8000/library-app-ws/api/v1/books/{id}) `/library-app-ws/api/v1/books/1`
+- (PUT) [Update book Details](http://localhost:8000/library-app-ws/api/v1/books/{id}) `/library-app-ws/api/v1/books/1`
 
 ### 4.3 Book Transactions APIs ###
 
-- (POST) [Borrow a Book](http://localhost:8000/library-app-ws/api/v1/books/{id}/{email})
-- (POST) [Return a Book](http://localhost:8000/library-app-ws/api/v1/books/{id})
+- (POST) [Borrow a Book](http://localhost:8000/library-app-ws/api/v1/books/{id}/{email}) `/library-app-ws/api/v1/books/1/musty@gmail.com` (Where musty@gmail.com is the borrower email)
+- (POST) [Return a Book](http://localhost:8000/library-app-ws/api/v1/books/{id}) `/library-app-ws/api/v1/books/1`
 
 ---
 
 ## 5. Running the Frontend (JavaFX) ##
+
 - **Ensure JavaFX SDK is installed on your machine before running this project**
 - **Navigate to the book-ui project::**
   `cd book-ui`
 - **Build and run the frontend project using maven:**
-  
+
   `mvn clean install`
 
   `mvn javafx:run`

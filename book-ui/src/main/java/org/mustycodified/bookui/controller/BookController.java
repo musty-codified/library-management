@@ -14,14 +14,21 @@ import org.mustycodified.bookui.service.RestClient;
 import java.util.List;
 
 public class BookController {
-    @FXML private TableView<BookResponse> bookTable;
+    @FXML
+    private TableView<BookResponse> bookTable;
     private ObservableList<BookResponse> books = FXCollections.observableArrayList();
-    @FXML private TextField titleField;
-    @FXML private TextField authorField;
-    @FXML private TextField priceField;
-    @FXML private TextField quantityField;
-    @FXML private TextField isbnField;
-    @FXML private TextField searchField;
+    @FXML
+    private TextField titleField;
+    @FXML
+    private TextField authorField;
+    @FXML
+    private TextField priceField;
+    @FXML
+    private TextField quantityField;
+    @FXML
+    private TextField isbnField;
+    @FXML
+    private TextField searchField;
 
     @FXML
     private Button addButton;
@@ -67,7 +74,7 @@ public class BookController {
     private void nextPage() {
         if (currentPage < totalPages) {
             currentPage++;
-            loadBooks(); // Reload books for the next page
+            loadBooks();
         }
     }
 
@@ -108,7 +115,6 @@ public class BookController {
     }
 
     private void setupActions() {
-
         bookTable.getSelectionModel().selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) -> {
                     if (newSelection != null) {
@@ -127,26 +133,23 @@ public class BookController {
         // Search functionality
         searchButton.setOnAction(e -> {
             String searchText = searchField.getText();
-            searchBooks(searchText, currentPage, totalPages); // Pass the entered search text to the search method
+            searchBooks(searchText, currentPage, totalPages);
         });
 
     }
 
     //Search Books with pagination
-    @FXML public void searchBooks(String searchText, int currentPage, int pageSize) {
+    @FXML
+    public void searchBooks(String searchText, int currentPage, int pageSize) {
         ApiResponse.Wrapper<List<BookResponse>> bookList = RestClient.searchBooks(searchText, currentPage, pageSize);
-       List<BookResponse> bookContent = bookList.getContent();
+        List<BookResponse> bookContent = bookList.getContent();
 
         books.setAll(bookContent);
     }
 
-//    //Search Books
-//    @FXML public void searchBooks(String searchText) {
-//        List<BookResponse> bookList = RestClient.searchBooks(searchText);
-//        books.setAll(bookList);
-//    }
     //Fetch All Books
-    @FXML private void loadBooks() {
+    @FXML
+    private void loadBooks() {
         String searchText = searchField.getText().trim().isEmpty() ? null : searchField.getText();
         ApiResponse.Wrapper<List<BookResponse>> bookList = RestClient.searchBooks(searchText, currentPage, pageSize);
         List<BookResponse> bookContent = bookList.getContent();
@@ -161,20 +164,21 @@ public class BookController {
     }
 
     //Add a Book
-    @FXML private void addBook() {
+    @FXML
+    private void addBook() {
         Book newBook = new Book(
                 titleField.getText(),
                 authorField.getText(),
                 isbnField.getText(),
                 Integer.parseInt(quantityField.getText()),
                 Double.parseDouble(priceField.getText()));
-
         RestClient.addBook(newBook);
         loadBooks();
     }
 
     //Update Book details
-    @FXML private void updateBook() {
+    @FXML
+    private void updateBook() {
         BookResponse selectedBook = bookTable.getSelectionModel().getSelectedItem();
         if (selectedBook != null) {
             selectedBook.setTitle(titleField.getText());
@@ -197,7 +201,8 @@ public class BookController {
     }
 
     //Delete Book
-    @FXML private void deleteBook() {
+    @FXML
+    private void deleteBook() {
         BookResponse selectedBook = bookTable.getSelectionModel().getSelectedItem();
         if (selectedBook != null) {
             RestClient.deleteBook(selectedBook.getId());
@@ -206,7 +211,7 @@ public class BookController {
     }
 
     public void searchBooks(ActionEvent actionEvent) {
-            String searchText = searchField.getText();
-            searchBooks(searchText, currentPage, totalPages);
+        String searchText = searchField.getText();
+        searchBooks(searchText, currentPage, totalPages);
     }
 }
