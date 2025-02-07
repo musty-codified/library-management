@@ -33,7 +33,6 @@ public class BookController {
     private Button deleteButton = new Button("Delete");
     @FXML
     private Button refreshButton = new Button("Refresh");
-//    @FXML
     @FXML
     private Button searchButton = new Button("Search");
 
@@ -43,7 +42,10 @@ public class BookController {
     TableColumn<BookResponse, String> authorColumn;
     @FXML
     TableColumn<BookResponse, String> quantityColumn;
-
+    @FXML
+    TableColumn<BookResponse, String> isbnColumn;
+    @FXML
+    TableColumn<BookResponse, String> publishedDateColumn;
     public BookController() {
     }
 
@@ -68,6 +70,14 @@ public class BookController {
         quantityColumn.setMinWidth(200);
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
+        // Define the ISBN column
+        isbnColumn.setMinWidth(200);
+        isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+
+        // Define the PublishedDate column
+        publishedDateColumn.setMinWidth(200);
+        publishedDateColumn.setCellValueFactory(new PropertyValueFactory<>("publishedDate"));
+
         bookTable.setItems(books);
 
     }
@@ -80,6 +90,7 @@ public class BookController {
                         titleField.setText(newSelection.getTitle());
                         authorField.setText(newSelection.getAuthor());
                         quantityField.setText(newSelection.getQuantity().toString());
+                        isbnField.setText(newSelection.getIsbn());
                     }
                 });
 
@@ -105,6 +116,7 @@ public class BookController {
     @FXML private void loadBooks() {
         List<BookResponse> bookList = RestClient.fetchBooks();
         books.setAll(bookList);
+        System.out.println(bookList);
     }
 
     //Add a Book
@@ -127,12 +139,13 @@ public class BookController {
             selectedBook.setTitle(titleField.getText());
             selectedBook.setAuthor(authorField.getText());
             selectedBook.setQuantity(Integer.parseInt(quantityField.getText()));
+            selectedBook.setIsbn(isbnField.getText());
 
             // Convert BookResponse to Book for the backend request
             Book bookToUpdate = new Book(
                     selectedBook.getTitle(),
                     selectedBook.getAuthor(),
-                    "",
+                    selectedBook.getIsbn(),
                     selectedBook.getQuantity(),
                     0.0
             );

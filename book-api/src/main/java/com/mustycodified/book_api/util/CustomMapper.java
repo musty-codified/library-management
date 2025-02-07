@@ -38,6 +38,8 @@ public class CustomMapper {
                 .title(bookEntity.getTitle())
                 .author(bookEntity.getAuthor())
                 .quantity(bookEntity.getQuantity())
+                .publishedDate(bookEntity.getPublishedDate())
+                .isbn(bookEntity.getIsbn())
                 .build();
     }
 

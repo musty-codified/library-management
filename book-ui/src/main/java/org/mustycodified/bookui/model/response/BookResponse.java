@@ -9,14 +9,42 @@ public class BookResponse {
     private StringProperty title = new SimpleStringProperty();
     private StringProperty author = new SimpleStringProperty();
     private IntegerProperty quantity = new SimpleIntegerProperty();
+    private StringProperty isbn = new SimpleStringProperty();
+    private StringProperty publishedDate = new SimpleStringProperty();
 
-    public BookResponse(String title, String author, Integer quantity) {
-        this.setTitle(title);
-        this.setAuthor(author);
-        this.setQuantity(quantity);
+    public BookResponse(StringProperty title, StringProperty author, IntegerProperty quantity, StringProperty isbn, StringProperty publishedDate) {
+        this.title = title;
+        this.author = author;
+        this.quantity = quantity;
+        this.isbn = isbn;
+        this.publishedDate = publishedDate;
     }
 
     public BookResponse() {
+    }
+
+    public String getIsbn() {
+        return isbn.get();
+    }
+
+    public StringProperty isbnProperty() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn.set(isbn);
+    }
+
+    public String getPublishedDate() {
+        return publishedDate.get();
+    }
+
+    public StringProperty publishedDateProperty() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(String publishedDate) {
+        this.publishedDate.set(publishedDate);
     }
 
     public long getId() {
@@ -67,20 +95,16 @@ public class BookResponse {
         this.quantity.set(quantity);
     }
 
-
-
-    // private LongProperty id = new SimpleLongProperty();
-    //    private StringProperty title = new SimpleStringProperty();
-    //    private StringProperty author = new SimpleStringProperty();
-    //    private IntegerProperty quantity = new SimpleIntegerProperty();
-
     @Override
     public String toString(){
         return "BookResponse { " +
                 "id : '" + id.get() + '\'' +
                 "title : '" + this.title.get() + '\'' +
                 "author :" + this.author.get() + '\'' +
-                 "quantity : " + this.quantity.get() +
+                "quantity : " + this.quantity.get() +'\'' +
+                "isbn :" + this.isbn.get() + '\'' +
+                "publishedDate : " + this.publishedDate.get()+
+
                 "}";
     }
 

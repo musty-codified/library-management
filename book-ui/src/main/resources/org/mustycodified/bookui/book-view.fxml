@@ -14,16 +14,18 @@
             <TableColumn text="Title" fx:id="titleColumn"/>
             <TableColumn text="Author" fx:id="authorColumn"/>
             <TableColumn text="Quantity" fx:id="quantityColumn"/>
+            <TableColumn text="ISBN" fx:id="isbnColumn"/>
+            <TableColumn text="Published Date" fx:id="publishedDateColumn"/>
         </columns>
     </TableView>
 
     <!-- Form Fields -->
     <VBox spacing="10">
-        <TextField fx:id="titleField" promptText="title"/>
+        <TextField fx:id="titleField" promptText="Title"/>
         <TextField fx:id="authorField" promptText="Author"/>
-        <TextField fx:id="priceField" promptText="Price"/>
         <TextField fx:id="quantityField" promptText="Quantity"/>
         <TextField fx:id="isbnField" promptText="ISBN"/>
+        <TextField fx:id="priceField" promptText="Price"/>
     </VBox>
 
     <!-- Action Buttons -->

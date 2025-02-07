@@ -13,13 +13,13 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProxyClient {
+public class Consumer {
 
     private static final String BASE_URL = "http://localhost:8000/library-app-ws/api/v1";
     private static String AUTH_TOKEN = "";
 
     private static final RestTemplate restTemplate = new RestTemplate();
-    private static final Log log = LogFactory.getLog(ProxyClient.class);
+    private static final Log log = LogFactory.getLog(Consumer.class);
 
     public static boolean loginUser(Login login) {
         String loginUrl = String.format("%s/auth/login", BASE_URL);
