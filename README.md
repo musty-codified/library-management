@@ -49,7 +49,7 @@
 ### 4.2 Book Management APIs ###
 
 - (POST) [Add a Book](http://localhost:8000/library-app-ws/api/v1/books)
-- (GET)  [Fetch all Books](http://localhost:8000/library-app-ws/api/v1/books)
+- (GET)  [Fetch all Books with optional filtering and pagination](http://localhost:8000/library-app-ws/api/v1/books)
 - (DELETE) [Delete a Book](http://localhost:8000/library-app-ws/api/v1/books/{id})
 - (PUT) [Update book Details](http://localhost:8000/library-app-ws/api/v1/books/{id})
 
