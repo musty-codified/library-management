@@ -1,19 +1,22 @@
 # Library Management System
+A **Java-based** Library Management System with a **Spring Boot backend** and a **JavaFX frontend**, secured using **JWT-based authentication**.
 
 `Backend built with Spring Boot, frontend with JavaFX, and secured with Spring Security (JWT)`
 
 ## 1. Prerequisites ##
+Ensure the following dependencies are installed before running the project:
 
 - **Java 17+**
 - **JavaFX 21**
 - **Spring Boot 3.4.2**
 - **Maven 3.8+**
 - **H2 Database** (Embedded, no separate installation needed)
-- **JWT**
+- **JWT (JSON Web Tokens) **
 
 ---
 
 ## 2. Project Modules ##
+The system is divided into two modules:
 
 - book-api (Spring Boot Backend)
 - book-ui  (JavaFX Frontend)
@@ -22,22 +25,27 @@
 
 ## 3. Running the Backend (Spring Boot) ##
 
+Follow these steps to set up and run the backend service:
+
 - **Ensure JDK 17+ is installed on your machine**
 - **Clone the repository:**
   `git clone https://github.com/musty-codified/library-management.git`
 - **Navigate to the book-api project::**
   `cd book-api`
 - **Configure environment:** Update `application.yml` with your H2 Database configurations.
+
+
 - **Build and run the backend project using maven:**
 
   `mvn clean install`
 
   `mvn spring-boot:run`
+  The backend will start on **`http://localhost:8000`**.
 
 ---
 
 ## 4. API Documentation ##
-- The service exposes REST APIs for managing books. All API endpoints are now prefixed with `/library-app-ws/api/v1` due to the context-path setting.
+- The REST API endpoints are prefixed with `/library-app-ws/api/v1` due to the context-path setting in the properties file. 
 
 ### 4.1 User Authentication APIs ###
 
@@ -53,15 +61,17 @@
 
 ### 4.3 Book Transactions APIs ###
 
-- (POST) [Borrow a Book](http://localhost:8000/library-app-ws/api/v1/books/{id}/{email}) `/library-app-ws/api/v1/books/1/musty@gmail.com` (Where musty@gmail.com is the borrower email)
+- (POST) [Borrow a Book](http://localhost:8000/library-app-ws/api/v1/books/{id}/{email}) `/library-app-ws/api/v1/books/1/musty@gmail.com` 
 - (POST) [Return a Book](http://localhost:8000/library-app-ws/api/v1/books/{id}) `/library-app-ws/api/v1/books/1`
 
 ---
 
 ## 5. Running the Frontend (JavaFX) ##
 
+- **Navigate to the frontend module::**
 - **Ensure JavaFX SDK is installed on your machine before running this project**
-- **Navigate to the book-ui project::**
+- JavaFX is required to run the frontend. You can download it from:
+  [https://openjfx.io/](https://openjfx.io/)
   `cd book-ui`
 - **Build and run the frontend project using maven:**
 
@@ -70,8 +80,63 @@
   `mvn javafx:run`
 
 
+## 6. Additional Notes
 
+### 6.1 Default Admin Credentials
+If an admin account is preconfigured, provide login details:
+```sh
+Email: admin@library.com
+Password: admin123
+```
 
+### 6.2 Database Access
+The H2 database can be accessed via:
+- **URL:** `http://localhost:8000/h2-console`
+- **JDBC URL:** `jdbc:h2:mem:library_db`
+
+### 6.3 API Authentication
+- Most API endpoints require a **JWT token** for access.
+- Obtain a token via the **User Login API** and pass it in the request header:
+  ```sh
+  Authorization: Bearer <your-token-here>
+  ```
+
+---
+
+## 8. Common Issues & Debugging
+
+### 8.1 Backend Port Already in Use
+If port `8000` is occupied, change the port in `application.yml`:
+```yaml
+server:
+  port: 8081
+```
+
+### 8.2 JavaFX Not Found Error
+Ensure you have installed JavaFX and added it to the **`classpath`**.
+
+### 8.3 `mvn javafx:run` Fails
+Try adding the JavaFX SDK path explicitly:
+```sh
+export PATH_TO_FX=/path/to/javafx-sdk
+mvn javafx:run -f pom.xml
+```
+
+---
+
+## 9. License
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 10. Contact & Support
+For any issues or suggestions, feel free to open an issue on GitHub or reach out to:
+- **Email:** support@librarymanagement.com
+- **GitHub:** [@musty-codified](https://github.com/musty-codified)
+
+---
+
+### 📌 Happy Coding! 🚀
 
 
 
