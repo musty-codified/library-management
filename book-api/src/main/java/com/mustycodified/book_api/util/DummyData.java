@@ -33,7 +33,7 @@ public class DummyData implements CommandLineRunner {
     private final Faker faker;
     @Override
     public void run(String... args) throws Exception {
-        IntStream.rangeClosed(1, 10).forEach(i->{
+        IntStream.rangeClosed(1, 30).forEach(i->{
             Book book = createBook();
             bookRepository.save(book);
         });

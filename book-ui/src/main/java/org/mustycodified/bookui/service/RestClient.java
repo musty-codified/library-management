@@ -3,6 +3,7 @@ package org.mustycodified.bookui.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.mustycodified.bookui.model.ApiResponse;
 import org.mustycodified.bookui.model.request.Book;
 import org.mustycodified.bookui.model.request.User;
 import org.mustycodified.bookui.model.response.BookResponse;
@@ -38,9 +39,15 @@ public class RestClient {
         return parseBookMap(mapList);
     }
 
-    public static List<BookResponse> searchBooks(String searchText) {
-        String searchUrl = String.format("%s/books?searchText=" + (searchText != null ? searchText : ""), BASE_URL);
+
+    public static ApiResponse.Wrapper<List<BookResponse>> searchBooks(String searchText, int pageNumber, int pageSize) {
+        String searchUrl = String.format("%s/books?searchText=" + (searchText != null ? searchText : "") + "&pageNumber=" + pageNumber + "&pageSize=" + pageSize, BASE_URL);
         System.out.println(searchUrl);
+
+        Integer totalPages = 1;
+        Integer totalItems = 1;
+        Integer currentPage = 1;
+
         entity = new HttpEntity<>(getHttpHeaders());
         String jsonString = restTemplate.exchange(searchUrl, HttpMethod.GET, entity, String.class).getBody();
         ObjectMapper mapper = new ObjectMapper();
@@ -51,13 +58,39 @@ public class RestClient {
             responseMap = mapper.readValue(jsonString, new TypeReference<>() {
             });
             dataMap = (Map<String, Object>) responseMap.get("data");
+            totalPages = (Integer) dataMap.get("totalPages");
+            totalItems = (Integer) dataMap.get("totalItems");
+            currentPage = (Integer) dataMap.get("currentPage");
             mapList = (List<Map<String, Object>>) dataMap.get("content");
-
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return parseBookMap(mapList);
+        List<BookResponse> bookList = parseBookMap(mapList);
+        return new ApiResponse.Wrapper<>(bookList, totalPages, totalItems, currentPage);
     }
+
+//    public static List<BookResponse> searchBooks(String searchText, int pageNumber, int pageSize) {
+//        String searchUrl = String.format("%s/books?searchText=" + (searchText != null ? searchText : "") + "&pageNumber=" + pageNumber + "&pageSize=" + pageSize, BASE_URL);
+//        System.out.println(searchUrl);
+//        entity = new HttpEntity<>(getHttpHeaders());
+//        String jsonString = restTemplate.exchange(searchUrl, HttpMethod.GET, entity, String.class).getBody();
+//        ObjectMapper mapper = new ObjectMapper();
+//        Map<String, Object> responseMap = null;
+//        Map<String, Object> dataMap = null;
+//        List<Map<String, Object>> mapList = null;
+//        try {
+//            responseMap = mapper.readValue(jsonString, new TypeReference<>() {
+//            });
+//            dataMap = (Map<String, Object>) responseMap.get("data");
+//            Integer totalPages = (Integer) dataMap.get("totalPages");
+//            Integer totalItems = (Integer) dataMap.get("totalItems");
+//            mapList = (List<Map<String, Object>>) dataMap.get("content");
+//
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return parseBookMap(mapList);
+//    }
 
     private static List<BookResponse> parseBookMap(List<Map<String, Object>> mapList) {
         List<BookResponse> bookList = new ArrayList<>();

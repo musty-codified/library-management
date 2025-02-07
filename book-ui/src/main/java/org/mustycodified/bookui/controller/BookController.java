@@ -4,11 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.mustycodified.bookui.model.ApiResponse;
 import org.mustycodified.bookui.model.request.Book;
 import org.mustycodified.bookui.model.response.BookResponse;
 import org.mustycodified.bookui.service.RestClient;
@@ -46,6 +44,33 @@ public class BookController {
     TableColumn<BookResponse, String> isbnColumn;
     @FXML
     TableColumn<BookResponse, String> publishedDateColumn;
+
+    @FXML
+    private Label pageLabel;
+    @FXML
+    private Button prevButton = new Button("PrevPage");
+    @FXML
+    private Button nextButton = new Button("NextButton");
+    private int currentPage = 1;
+    private int totalPages = 1;
+    private int pageSize = 10;
+
+    @FXML
+    private void previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            loadBooks();
+        }
+    }
+
+    @FXML
+    private void nextPage() {
+        if (currentPage < totalPages) {
+            currentPage++;
+            loadBooks(); // Reload books for the next page
+        }
+    }
+
     public BookController() {
     }
 
@@ -53,7 +78,7 @@ public class BookController {
     public void initialize() {
         loadBooks();
         setupTable();
-        setupActions();  // Set up button actions and selection listener
+        setupActions();
 
     }
 
@@ -102,21 +127,36 @@ public class BookController {
         // Search functionality
         searchButton.setOnAction(e -> {
             String searchText = searchField.getText();
-            searchBooks(searchText); // Pass the entered search text to the search method
+            searchBooks(searchText, currentPage, totalPages); // Pass the entered search text to the search method
         });
-
+        pageLabel.setText("Page " + currentPage + " of " + totalPages);
+        prevButton.setDisable(currentPage <= 1);
+        nextButton.setDisable(currentPage >= totalPages);
     }
 
-    //Search Books
-    @FXML public void searchBooks(String searchText) {
-        List<BookResponse> bookList = RestClient.searchBooks(searchText);
-        books.setAll(bookList);
+    //Search Books with pagination
+    @FXML public void searchBooks(String searchText, int currentPage, int pageSize) {
+        ApiResponse.Wrapper<List<BookResponse>> bookList = RestClient.searchBooks(searchText, currentPage, pageSize);
+       List<BookResponse> bookContent = bookList.getContent();
+
+        books.setAll(bookContent);
     }
+
+//    //Search Books
+//    @FXML public void searchBooks(String searchText) {
+//        List<BookResponse> bookList = RestClient.searchBooks(searchText);
+//        books.setAll(bookList);
+//    }
     //Fetch All Books
     @FXML private void loadBooks() {
-        List<BookResponse> bookList = RestClient.fetchBooks();
-        books.setAll(bookList);
+        String searchText = searchField.getText().trim().isEmpty() ? null : searchField.getText();
+        ApiResponse.Wrapper<List<BookResponse>> bookList = RestClient.searchBooks(searchText, currentPage, pageSize);
+        List<BookResponse> bookContent = bookList.getContent();
+        books.setAll(bookContent);
+        totalPages = bookList.getTotalPages();
+        currentPage = bookList.getCurrentPage();
         System.out.println(bookList);
+
     }
 
     //Add a Book
@@ -166,6 +206,6 @@ public class BookController {
 
     public void searchBooks(ActionEvent actionEvent) {
             String searchText = searchField.getText();
-            searchBooks(searchText);
+            searchBooks(searchText, currentPage, totalPages);
     }
 }

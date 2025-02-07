@@ -37,7 +37,7 @@ public class BookController {
     public ResponseEntity<ApiResponse<ApiResponse.Wrapper<List<BookResponseDto>>>> fetchAllBooks(
             @RequestParam(required = false) String searchText,
             @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
             @RequestParam(value = "sortBy", defaultValue = "createdAt", required = false) String sortBy,
             @RequestParam(value = "sortOrder", defaultValue = "desc", required = false) String sortOrder) {
 

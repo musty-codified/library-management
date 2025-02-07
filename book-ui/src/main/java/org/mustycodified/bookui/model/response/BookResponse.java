@@ -2,7 +2,6 @@ package org.mustycodified.bookui.model.response;
 
 import javafx.beans.property.*;
 
-
 public class BookResponse {
 
     private LongProperty id = new SimpleLongProperty();
@@ -104,7 +103,6 @@ public class BookResponse {
                 "quantity : " + this.quantity.get() +'\'' +
                 "isbn :" + this.isbn.get() + '\'' +
                 "publishedDate : " + this.publishedDate.get()+
-
                 "}";
     }
 
