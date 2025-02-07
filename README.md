@@ -1,7 +1,7 @@
 # Library Management System
 A **Java-based** Library Management System with a **Spring Boot backend** and a **JavaFX frontend**, secured using **JWT-based authentication**.
 
-`Backend built with Spring Boot, frontend with JavaFX, and secured with Spring Security (JWT)`
+[//]: # (`Backend built with Spring Boot, frontend with JavaFX, and secured with Spring Security &#40;JWT&#41;`)
 
 ## 1. Prerequisites ##
 Ensure the following dependencies are installed before running the project:
@@ -11,7 +11,7 @@ Ensure the following dependencies are installed before running the project:
 - **Spring Boot 3.4.2**
 - **Maven 3.8+**
 - **H2 Database** (Embedded, no separate installation needed)
-- **JWT (JSON Web Tokens) **
+- **JWT (JSON Web Tokens)**
 
 ---
 
@@ -27,25 +27,22 @@ The system is divided into two modules:
 
 Follow these steps to set up and run the backend service:
 
-- **Ensure JDK 17+ is installed on your machine**
 - **Clone the repository:**
   `git clone https://github.com/musty-codified/library-management.git`
 - **Navigate to the book-api project::**
-  `cd book-api`
+  `cd library-mgt-system/book-api`
 - **Configure environment:** Update `application.yml` with your H2 Database configurations.
-
-
 - **Build and run the backend project using maven:**
 
   `mvn clean install`
 
   `mvn spring-boot:run`
-  The backend will start on **`http://localhost:8000`**.
+- The backend will start on **`http://localhost:8000`**.
 
 ---
 
 ## 4. API Documentation ##
-- The REST API endpoints are prefixed with `/library-app-ws/api/v1` due to the context-path setting in the properties file. 
+The REST API endpoints are prefixed with `/library-app-ws/api/v1` due to the context-path setting in the properties file. 
 
 ### 4.1 User Authentication APIs ###
 
@@ -68,9 +65,9 @@ Follow these steps to set up and run the backend service:
 
 ## 5. Running the Frontend (JavaFX) ##
 
-- **Navigate to the frontend module::**
+- **Navigate to the frontend module**
 - **Ensure JavaFX SDK is installed on your machine before running this project**
-- JavaFX is required to run the frontend. You can download it from:
+-  JavaFX is required to run the frontend. You can download it from:
   [https://openjfx.io/](https://openjfx.io/)
   `cd book-ui`
 - **Build and run the frontend project using maven:**
@@ -129,14 +126,7 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 ---
 
-## 10. Contact & Support
-For any issues or suggestions, feel free to open an issue on GitHub or reach out to:
-- **Email:** support@librarymanagement.com
-- **GitHub:** [@musty-codified](https://github.com/musty-codified)
 
----
-
-### 📌 Happy Coding! 🚀
 
 
 
