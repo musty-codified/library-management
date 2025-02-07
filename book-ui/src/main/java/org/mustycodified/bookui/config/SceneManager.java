@@ -15,7 +15,6 @@ public class SceneManager {
     }
     public static void switchScene(String fxmlFile, String title) {
         try {
-//            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/fxml/" + fxmlFile));
             FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/org/mustycodified/bookui/" + fxmlFile));
             Parent root = loader.load();
             window.setTitle(title);
