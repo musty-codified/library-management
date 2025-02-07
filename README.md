@@ -81,7 +81,7 @@ The REST API endpoints are prefixed with `/library-app-ws/api/v1` due to the con
 
 ### 6.1 Database Access
 The H2 database can be accessed via:
-- **URL:** `http://localhost:8000/h2-console`
+- **URL:** `http://localhost:8000/library-app-ws/api/v1/h2-console`
 - **JDBC URL:** `jdbc:h2:mem:test_db`
 
 ### 6.2 API Authentication
@@ -90,17 +90,6 @@ The H2 database can be accessed via:
   ```sh
   Authorization: Bearer <your-token-here>
   ```
-
----
-
-## 7. Common Issues & Debugging
-
-### 7.1 Backend Port Already in Use
-If port `8000` is occupied, change the port in `application.yml`:
-```yaml
-server:
-  port: 8081
-```
 
 ---
 
