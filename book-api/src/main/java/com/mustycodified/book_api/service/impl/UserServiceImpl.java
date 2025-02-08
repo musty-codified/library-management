@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
                     .build();
 
         } catch (RuntimeException e){
-            throw new BadCredentialsException("Incorrect credentials");
+            throw new com.mustycodified.book_api.exception.BadCredentialsException("Incorrect credentials");
 
         }
     }

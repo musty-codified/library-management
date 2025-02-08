@@ -126,15 +126,21 @@ public class BookController {
                 });
 
         addButton.setOnAction(e -> addBook());
+        addButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
         updateButton.setOnAction(e -> updateBook());
+        updateButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
         deleteButton.setOnAction(e -> deleteBook());
+        deleteButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
         refreshButton.setOnAction(e -> loadBooks());
+        refreshButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
+
 
         // Search functionality
         searchButton.setOnAction(e -> {
             String searchText = searchField.getText();
             searchBooks(searchText, currentPage, totalPages);
         });
+        searchButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
 
     }
 
@@ -143,7 +149,6 @@ public class BookController {
     public void searchBooks(String searchText, int currentPage, int pageSize) {
         ApiResponse.Wrapper<List<BookResponse>> bookList = RestClient.searchBooks(searchText, currentPage, pageSize);
         List<BookResponse> bookContent = bookList.getContent();
-
         books.setAll(bookContent);
     }
 
@@ -156,7 +161,6 @@ public class BookController {
         books.setAll(bookContent);
         totalPages = bookList.getTotalPages();
         currentPage = bookList.getCurrentPage();
-        System.out.println(bookList);
         pageLabel.setText("Page " + currentPage + " of " + totalPages);
         prevButton.setDisable(currentPage <= 1);
         nextButton.setDisable(currentPage >= totalPages);

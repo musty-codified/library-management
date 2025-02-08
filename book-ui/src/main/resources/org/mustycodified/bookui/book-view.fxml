@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.*?>
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.mustycodified.bookui.controller.BookController"
       spacing="10" alignment="CENTER">
@@ -16,10 +14,6 @@
         <Button fx:id="prevButton" text="Previous" onAction="#previousPage" />
         <Label fx:id="pageLabel" text="Page 1" />
         <Button fx:id="nextButton" text="Next" onAction="#nextPage" />
-    </HBox>
-
-    <HBox spacing="10" alignment="CENTER">
-
     </HBox>
 
     <TableView fx:id="bookTable" prefHeight="400" prefWidth="600">

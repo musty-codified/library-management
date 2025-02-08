@@ -34,11 +34,12 @@ public class UrlAccessDecisionManager implements AuthorizationManager<RequestAut
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
         List<String> whitelistedUrls = Arrays.asList("/swagger-ui/**", "/v3/api-docs/**", "/auth/**", "/h2-console/**", "/configuration/**",
-                "/webjars/**", "/users", "/books/**");
+                "/webjars/**", "/users");
         String requestedUrl = object.getRequest().getRequestURI().substring(contextPath.length()).toLowerCase();
         log.info("Requested URL: {}", requestedUrl);
 
         String requestedMethod = object.getRequest().getMethod();
+        log.info("Requested method: {}", requestedMethod);
         if (whitelistedUrls.stream().anyMatch(e->pathMatcher.match(e, requestedUrl))){
             return new AuthorizationDecision(true);
         }
@@ -59,6 +60,7 @@ public class UrlAccessDecisionManager implements AuthorizationManager<RequestAut
     }
 
     private boolean matchesPermission(String permission, String requestedUrl, String requestMethod) {
+        System.out.println(permission);
         return permissionConfig.getPermissions().stream()
                 .filter(e->e.getPermission().equals(permission))
                 .anyMatch(mapping->mapping.getMethods().contains(requestMethod) &&

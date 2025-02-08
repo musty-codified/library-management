@@ -3,6 +3,7 @@ package com.mustycodified.book_api.exception;
 import com.mustycodified.book_api.dto.response.ApiResponse;
 import com.mustycodified.book_api.dto.response.ErrorResponse;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -78,6 +79,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<String>> handleBookNotFoundException(BookNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(errorResponse, NOT_FOUND);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiResponse<String>> handleBadCredentialsException(BadCredentialsException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(errorResponse, BAD_REQUEST);
     }
 
     @ExceptionHandler(CustomValidationException.class)

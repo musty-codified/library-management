@@ -9,7 +9,7 @@ import static com.mustycodified.book_api.enums.UserPermissions.*;
 
 @Getter
 public enum Roles {
-    USER(Sets.newHashSet(USER_EDIT, USER_READ)),
+    USER(Sets.newHashSet(USER_READ)),
     ADMIN(Sets.newHashSet(USER_DELETE, USER_READ, USER_EDIT));
     private final Set<UserPermissions> permissions;
 
