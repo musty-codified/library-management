@@ -80,7 +80,6 @@ file.
    `cd library-mgt-system/book-ui`
 
 - **Build and run the frontend project using maven:**
-- **Build and run the frontend project using maven:**
 
   `mvn clean install`
 
