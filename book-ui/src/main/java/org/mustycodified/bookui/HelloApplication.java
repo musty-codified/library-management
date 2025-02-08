@@ -12,7 +12,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         SceneManager.setPrimaryStage(stage);
-        SceneManager.switchScene("register-view.fxml", "User Registration Page");
+        SceneManager.switchScene("book-view.fxml", "User Registration Page");
 
     }
 

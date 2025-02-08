@@ -3,8 +3,6 @@
 A **Java-based** Library Management System with a **Spring Boot backend** and a **JavaFX frontend**, secured using 
 **JWT-based authentication**.
 
-[//]: # (`Backend built with Spring Boot, frontend with JavaFX, and secured with Spring Security &#40;JWT&#41;`)
-
 ## 1. Prerequisites ##
 
 Ensure the following dependencies are installed before running the project:
