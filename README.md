@@ -75,10 +75,11 @@ file.
 
 - **Navigate to the frontend module**
 - **Ensure JavaFX SDK is installed on your machine before running this project**
-- JavaFX is required to run the frontend. You can download it from: [https://openjfx.io/](https://openjfx.io/)
+- **JavaFX is required to run the frontend. You can download it from**: [https://openjfx.io/](https://openjfx.io/)
 
    `cd library-mgt-system/book-ui`
 
+- **Build and run the frontend project using maven:**
 - **Build and run the frontend project using maven:**
 
   `mvn clean install`
