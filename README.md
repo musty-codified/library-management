@@ -1,7 +1,7 @@
 # Library Management System
 
-A **Java-based** Library Management System with a **Spring Boot backend** and a **JavaFX frontend**, secured using *
-*JWT-based authentication**.
+A **Java-based** Library Management System with a **Spring Boot backend** and a **JavaFX frontend**, secured using 
+**JWT-based authentication**.
 
 [//]: # (`Backend built with Spring Boot, frontend with JavaFX, and secured with Spring Security &#40;JWT&#41;`)
 
