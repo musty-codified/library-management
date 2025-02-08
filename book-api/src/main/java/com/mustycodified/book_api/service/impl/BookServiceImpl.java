@@ -50,24 +50,24 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public ApiResponse.Wrapper<List<BookResponseDto>> getAllBooks(String searchText, Pageable pageable) {
-        Page<Book> userPage = bookRepository.fetchAllBooks(searchText != null && !searchText.isEmpty() ? searchText : null, pageable);
+        Page<Book> bookPage = bookRepository.fetchAllBooks(searchText != null && !searchText.isEmpty() ? searchText : null, pageable);
 
-        if (userPage.isEmpty()) {
+        if (bookPage.isEmpty()) {
             throw new BookNotFoundException("No Book Record was found", HttpStatus.NOT_FOUND.toString());
         }
-        List<BookResponseDto> responses = userPage.getContent().stream()
+        List<BookResponseDto> responses = bookPage.getContent().stream()
                 .map(mapper::mapToDto)
                 .collect(Collectors.toList());
 
         return new ApiResponse.Wrapper<>(
                 responses,
-                userPage.getTotalPages(),
-                userPage.getTotalElements(),
-                userPage.getNumberOfElements(),
-                userPage.getNumber() + 1,
-                userPage.isLast(),
-                userPage.isFirst(),
-                userPage.isEmpty()
+                bookPage.getTotalPages(),
+                bookPage.getTotalElements(),
+                bookPage.getNumberOfElements(),
+                bookPage.getNumber() + 1,
+                bookPage.isLast(),
+                bookPage.isFirst(),
+                bookPage.isEmpty()
         );
     }
 
