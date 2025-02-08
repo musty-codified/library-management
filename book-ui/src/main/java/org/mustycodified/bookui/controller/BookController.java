@@ -11,6 +11,8 @@ import org.mustycodified.bookui.model.request.Book;
 import org.mustycodified.bookui.model.response.BookResponse;
 import org.mustycodified.bookui.service.RestClient;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class BookController {
@@ -109,8 +111,24 @@ public class BookController {
         // Define the PublishedDate column
         publishedDateColumn.setMinWidth(200);
         publishedDateColumn.setCellValueFactory(new PropertyValueFactory<>("publishedDate"));
+        publishedDateColumn.setCellFactory(column -> new TableCell<>() {
+            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy");
 
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    // Format the date
+                    LocalDateTime date = LocalDateTime.parse(item);
+                    setText(date.format(formatter));
+                }
+            }
+        });
         bookTable.setItems(books);
+        bookTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
 
     }
 
@@ -126,13 +144,9 @@ public class BookController {
                 });
 
         addButton.setOnAction(e -> addBook());
-        addButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
         updateButton.setOnAction(e -> updateBook());
-        updateButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
         deleteButton.setOnAction(e -> deleteBook());
-        deleteButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
         refreshButton.setOnAction(e -> loadBooks());
-        refreshButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
 
 
         // Search functionality
