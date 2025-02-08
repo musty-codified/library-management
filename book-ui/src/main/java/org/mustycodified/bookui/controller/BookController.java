@@ -154,7 +154,6 @@ public class BookController {
             String searchText = searchField.getText();
             searchBooks(searchText, currentPage, totalPages);
         });
-        searchButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
 
     }
 

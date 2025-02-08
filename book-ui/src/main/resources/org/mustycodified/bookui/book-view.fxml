@@ -26,11 +26,11 @@
 
     <!-- Form Fields -->
     <VBox spacing="10" style="-fx-padding: 10; -fx-border-color: lightgray; -fx-border-radius: 5;">
-        <TextField fx:id="titleField" promptText="Title"/>
-        <TextField fx:id="authorField" promptText="Author"/>
-        <TextField fx:id="quantityField" promptText="Quantity"/>
-        <TextField fx:id="isbnField" promptText="ISBN"/>
-        <TextField fx:id="priceField" promptText="Price"/>
+        <TextField fx:id="titleField" promptText=" Enter Title"/>
+        <TextField fx:id="authorField" promptText="Enter Author"/>
+        <TextField fx:id="quantityField" promptText="Enter Quantity"/>
+        <TextField fx:id="isbnField" promptText="Enter ISBN"/>
+        <TextField fx:id="priceField" promptText="Enter Price"/>
     </VBox>
 
     <!-- Action Buttons -->

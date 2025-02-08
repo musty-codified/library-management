@@ -18,7 +18,13 @@ public class SceneManager {
             FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/org/mustycodified/bookui/" + fxmlFile));
             Parent root = loader.load();
             window.setTitle(title);
-            window.setScene(new Scene(root));
+
+            Scene scene = new Scene(root);
+
+            // Add CSS file
+            scene.getStylesheets().add(SceneManager.class.getResource("/org/mustycodified/bookui/styles.css").toExternalForm());
+
+            window.setScene(scene);
             window.show();
         } catch (IOException e) {
             e.printStackTrace();
