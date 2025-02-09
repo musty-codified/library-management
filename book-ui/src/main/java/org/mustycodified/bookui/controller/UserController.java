@@ -1,6 +1,7 @@
 package org.mustycodified.bookui.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import org.mustycodified.bookui.config.SceneManager;
 import org.mustycodified.bookui.model.request.UserDetailsRequestModel;
@@ -28,10 +29,12 @@ public class UserController {
                 passwordField.getText(),
                 phoneNumberField.getText());
         clearFormField();
-        RestClient.registerUser(newUser);
+      boolean isRegistered = RestClient.registerUser(newUser);
+      if (isRegistered){
+          // Switch to Log in screen
+          SceneManager.switchScene("login-view.fxml", "User Login");
+      }
 
-        // Switch to Log in screen
-        SceneManager.switchScene("login-view.fxml", "User Login");
     }
 
     private void clearFormField() {

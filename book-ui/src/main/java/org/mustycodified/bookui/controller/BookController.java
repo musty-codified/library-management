@@ -9,7 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mustycodified.bookui.config.SceneManager;
-import org.mustycodified.bookui.model.ApiResponse;
+import org.mustycodified.bookui.model.UIResponse;
 import org.mustycodified.bookui.model.request.BookRequestModel;
 import org.mustycodified.bookui.model.response.BookResponse;
 import org.mustycodified.bookui.service.Consumer;
@@ -48,8 +48,8 @@ public class BookController {
     @FXML
     private Button searchButton = new Button("Search");
 
-    @FXML private Button logoutButton;
-
+    @FXML
+    private Button logoutButton = new Button("Log Out");
 
     @FXML
     TableColumn<BookResponse, String> titleColumn;
@@ -142,7 +142,9 @@ public class BookController {
 
     private void setupActions() {
         bookTable.getSelectionModel().selectedItemProperty()
-                .addListener((obs, oldSelection, newSelection) -> {
+                .addListener((obs,
+                              oldSelection,
+                              newSelection) -> {
                     if (newSelection != null) {
                         titleField.setText(newSelection.getTitle());
                         authorField.setText(newSelection.getAuthor());
@@ -155,7 +157,7 @@ public class BookController {
         updateButton.setOnAction(e -> updateBook());
         deleteButton.setOnAction(e -> deleteBook());
         refreshButton.setOnAction(e -> loadBooks());
-        logoutButton.setOnAction(e-> logout());
+        logoutButton.setOnAction(e -> logout());
 
         // Search functionality
         searchButton.setOnAction(e -> {
@@ -168,7 +170,7 @@ public class BookController {
     //Search Books with pagination
     @FXML
     public void searchBooks(String searchText, int currentPage, int pageSize) {
-        ApiResponse.Wrapper<List<BookResponse>> bookList = RestClient.searchBooks(searchText, currentPage, pageSize);
+        UIResponse.Wrapper<List<BookResponse>> bookList = RestClient.searchBooks(searchText, currentPage, pageSize);
         List<BookResponse> bookContent = bookList.getContent();
         books.setAll(bookContent);
     }
@@ -177,7 +179,7 @@ public class BookController {
     @FXML
     private void loadBooks() {
         String searchText = searchField.getText().trim().isEmpty() ? null : searchField.getText();
-        ApiResponse.Wrapper<List<BookResponse>> bookList = RestClient.searchBooks(searchText, currentPage, pageSize);
+        UIResponse.Wrapper<List<BookResponse>> bookList = RestClient.searchBooks(searchText, currentPage, pageSize);
         List<BookResponse> bookContent = bookList.getContent();
         books.setAll(bookContent);
         totalPages = bookList.getTotalPages();

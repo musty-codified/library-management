@@ -4,8 +4,8 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public class UserAlreadyExistException extends RuntimeException{
-    public UserAlreadyExistException(String message) {
+public class ResourceAlreadyExistException extends RuntimeException{
+    public ResourceAlreadyExistException(String message) {
         super(message);
         this.status = HttpStatus.CONFLICT;
     }

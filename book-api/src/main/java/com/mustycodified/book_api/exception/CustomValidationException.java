@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 public class CustomValidationException extends RuntimeException{
     public CustomValidationException(String message) {
         super(message);
-        this.status = HttpStatus.CONFLICT;
+        this.status = HttpStatus.BAD_REQUEST;
     }
 
     private final HttpStatus status;

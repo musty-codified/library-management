@@ -9,7 +9,7 @@ import com.mustycodified.book_api.dto.response.UserResponseDto;
 import com.mustycodified.book_api.entity.User;
 import com.mustycodified.book_api.enums.Roles;
 import com.mustycodified.book_api.exception.CustomValidationException;
-import com.mustycodified.book_api.exception.UserAlreadyExistException;
+import com.mustycodified.book_api.exception.ResourceAlreadyExistException;
 import com.mustycodified.book_api.repository.UserRepository;
 import com.mustycodified.book_api.service.UserService;
 import com.mustycodified.book_api.util.AppUtil;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         validateEmail(requestDto.getEmail());
         appUtil.validateEmailDomain(requestDto.getEmail());
         if (userRepository.existsByEmail(requestDto.getEmail())) {
-            throw new UserAlreadyExistException("User already exists");
+            throw new ResourceAlreadyExistException("User already exists");
         }
         if (validatePhoneNumber(appUtil.getFormattedNumber(requestDto.getPhoneNumber()))) {
             throw new CustomValidationException("Invalid phone number {" + requestDto.getPhoneNumber() + "}");

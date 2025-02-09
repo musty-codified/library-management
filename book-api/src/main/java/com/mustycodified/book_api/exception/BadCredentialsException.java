@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 public class BadCredentialsException extends RuntimeException{
     public BadCredentialsException(String message) {
         super(message);
-        this.status = HttpStatus.CONFLICT;
+        this.status = HttpStatus.BAD_REQUEST;
     }
 
     private final HttpStatus status;

@@ -6,8 +6,9 @@ import com.mustycodified.book_api.dto.response.BookResponseDto;
 import com.mustycodified.book_api.dto.response.BorrowedBookRespDto;
 import com.mustycodified.book_api.entity.Book;
 import com.mustycodified.book_api.entity.BorrowedBook;
-import com.mustycodified.book_api.exception.BookAlreadyExistException;
 import com.mustycodified.book_api.exception.BookNotFoundException;
+import com.mustycodified.book_api.exception.OutOfStockException;
+import com.mustycodified.book_api.exception.ResourceAlreadyExistException;
 import com.mustycodified.book_api.repository.BookRepository;
 import com.mustycodified.book_api.repository.BorrowedBookRepository;
 import com.mustycodified.book_api.service.BookService;
@@ -34,7 +35,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookResponseDto addBook(BookRequestDto bookRequest) {
         if (bookRepository.existsByIsbn(bookRequest.getIsbn()))
-            throw new BookAlreadyExistException("Book already exists");
+            throw new ResourceAlreadyExistException("Book already exists");
 
         Book bookEntity = Book.builder()
                 .isbn(bookRequest.getIsbn())
@@ -116,10 +117,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookResponseDto borrowBook(Long bookId, String email) {
         Book bookEntity = bookRepository.findById(bookId)
-                .orElseThrow(()-> new BookNotFoundException("Book not found", HttpStatus.NOT_FOUND.toString()));
+                .orElseThrow(() -> new BookNotFoundException("Book not found", HttpStatus.NOT_FOUND.toString()));
 
         if (bookEntity.getQuantity() <= 0)
-            throw new RuntimeException("Book is not in the shelf at the moment");
+            throw new OutOfStockException("Book is not in the shelf at the moment");
         BorrowedBookRespDto borrowedBookRespDto = transactionService.createBorrowedBook(email, bookEntity);
         BorrowedBook borrowedBook = mapper.mapToEntity(borrowedBookRespDto);
         borrowedBookRepository.save(borrowedBook);
@@ -133,11 +134,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookResponseDto returnBook(Long borrowedBookId) {
         BorrowedBook borrowedBook = borrowedBookRepository.findById(borrowedBookId)
-                .orElseThrow(()->new BookNotFoundException("Borrowed book not found", HttpStatus.NOT_FOUND.toString()));
-
+                .orElseThrow(() -> new BookNotFoundException("Borrowed book not found", HttpStatus.NOT_FOUND.toString()));
         Book bookEntity = borrowedBook.getBook();
         bookEntity.setQuantity(bookEntity.getQuantity() + 1);
         Book returnedBook = bookRepository.save(bookEntity);
+
         borrowedBookRepository.delete(borrowedBook);
         return mapper.mapToDto(returnedBook);
     }

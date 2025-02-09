@@ -1,9 +1,9 @@
 package org.mustycodified.bookui.model;
 
-public class ApiResponse<T> {
+public class UIResponse<T> {
     private final T data;
 
-    public ApiResponse(T data) {
+    public UIResponse(T data) {
         this.data = data;
     }
 

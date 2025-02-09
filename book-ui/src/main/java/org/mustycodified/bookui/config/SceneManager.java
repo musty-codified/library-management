@@ -13,6 +13,7 @@ public class SceneManager {
     public static void setPrimaryStage(Stage stage) {
         window = stage;
     }
+
     public static void switchScene(String fxmlFile, String title) {
         try {
             FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/org/mustycodified/bookui/" + fxmlFile));

@@ -12,7 +12,6 @@ public class BookApiApplication {
         SpringApplication.run(BookApiApplication.class, args);
     }
 
-
 	@Bean
     public Faker faker() {
         return new Faker();

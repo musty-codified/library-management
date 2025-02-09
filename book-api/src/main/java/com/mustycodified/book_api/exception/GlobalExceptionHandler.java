@@ -3,7 +3,6 @@ package com.mustycodified.book_api.exception;
 import com.mustycodified.book_api.dto.response.ApiResponse;
 import com.mustycodified.book_api.dto.response.ErrorResponse;
 import jakarta.validation.ConstraintViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -63,20 +62,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, FORBIDDEN);
     }
 
-    @ExceptionHandler(UserAlreadyExistException.class)
-    public ResponseEntity<ApiResponse<String>> handleUserAlreadyExistException(UserAlreadyExistException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
-        return new ResponseEntity<>(errorResponse, e.getStatus());
-    }
-
-    @ExceptionHandler(BookAlreadyExistException.class)
-    public ResponseEntity<ApiResponse<String>> handleBookAlreadyExistException(BookAlreadyExistException e) {
+    @ExceptionHandler(ResourceAlreadyExistException.class)
+    public ResponseEntity<ApiResponse<String>> handleResourceAlreadyExistException(ResourceAlreadyExistException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(errorResponse, e.getStatus());
     }
 
     @ExceptionHandler(BookNotFoundException.class)
     public ResponseEntity<ApiResponse<String>> handleBookNotFoundException(BookNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(errorResponse, NOT_FOUND);
+    }
+
+    @ExceptionHandler(OutOfStockException.class)
+    public ResponseEntity<ApiResponse<String>> handleOutOfStockException(OutOfStockException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(errorResponse, NOT_FOUND);
     }
