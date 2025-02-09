@@ -1,0 +1,34 @@
+/* styles.css */
+.button {
+    -fx-font-weight: bold;
+}
+
+#addButton {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+#updateButton {
+    -fx-background-color: #FF9800;
+    -fx-text-fill: white;
+}
+
+#deleteButton {
+    -fx-background-color: #F44336;
+    -fx-text-fill: white;
+}
+
+#refreshButton {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+}
+
+#searchButton {
+    -fx-background-color: #9C27B0;
+    -fx-text-fill: white;
+}
+
+#prevButton, #nextButton {
+    -fx-background-color: #607D8B;
+    -fx-text-fill: white;
+}

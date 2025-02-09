@@ -1,0 +1,15 @@
+/* styles.css */
+.button {
+    -fx-font-weight: bold;
+}
+
+#loginButton {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+#registerButton {
+ -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+}
+
