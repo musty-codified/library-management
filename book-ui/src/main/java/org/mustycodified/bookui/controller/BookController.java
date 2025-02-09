@@ -6,9 +6,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.mustycodified.bookui.config.SceneManager;
 import org.mustycodified.bookui.model.ApiResponse;
 import org.mustycodified.bookui.model.request.BookRequestModel;
 import org.mustycodified.bookui.model.response.BookResponse;
+import org.mustycodified.bookui.service.Consumer;
 import org.mustycodified.bookui.service.RestClient;
 
 import java.time.LocalDateTime;
@@ -16,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class BookController {
+    private static final Log log = LogFactory.getLog(BookController.class);
     @FXML
     private TableView<BookResponse> bookTable;
     private ObservableList<BookResponse> books = FXCollections.observableArrayList();
@@ -42,6 +47,9 @@ public class BookController {
     private Button refreshButton = new Button("Refresh");
     @FXML
     private Button searchButton = new Button("Search");
+
+    @FXML private Button logoutButton;
+
 
     @FXML
     TableColumn<BookResponse, String> titleColumn;
@@ -147,6 +155,7 @@ public class BookController {
         updateButton.setOnAction(e -> updateBook());
         deleteButton.setOnAction(e -> deleteBook());
         refreshButton.setOnAction(e -> loadBooks());
+        logoutButton.setOnAction(e-> logout());
 
         // Search functionality
         searchButton.setOnAction(e -> {
@@ -241,4 +250,9 @@ public class BookController {
         priceField.clear();
     }
 
+    @FXML
+    private void logout() {
+        Consumer.clearAuthToken();
+        SceneManager.logout();
+    }
 }

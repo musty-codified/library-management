@@ -41,19 +41,23 @@ public class RestClient {
 
 
     public static ApiResponse.Wrapper<List<BookResponse>> searchBooks(String searchText, int pageNumber, int pageSize) {
-        String searchUrl = String.format("%s/books?searchText=" + (searchText != null ? searchText : "") + "&pageNumber=" + pageNumber + "&pageSize=" + pageSize, BASE_URL);
+        String searchUrl = String.format("%s/books?searchText=%s&pageNumber=%d&pageSize=%d",
+                BASE_URL,
+                searchText != null ? searchText : "",
+                pageNumber,
+                pageSize);
         System.out.println(searchUrl);
 
-        Integer totalPages = 1;
-        Integer totalItems = 1;
-        Integer currentPage = 1;
+        Integer totalPages;
+        Integer totalItems;
+        Integer currentPage;
 
         entity = new HttpEntity<>(getHttpHeaders());
         String jsonString = restTemplate.exchange(searchUrl, HttpMethod.GET, entity, String.class).getBody();
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> responseMap = null;
-        Map<String, Object> dataMap = null;
-        List<Map<String, Object>> mapList = null;
+        Map<String, Object> responseMap;
+        Map<String, Object> dataMap;
+        List<Map<String, Object>> mapList;
         try {
             responseMap = mapper.readValue(jsonString, new TypeReference<>() {
             });
@@ -86,33 +90,33 @@ public class RestClient {
 
     }
 
-    public static void addBook(BookRequestModel book) {
+    public static void addBook(BookRequestModel bookDetails) {
         String addBookUrl = String.format("%s/books", BASE_URL);
-        entity = new HttpEntity<>(book, getHttpHeaders());
+        entity = new HttpEntity<>(bookDetails, getHttpHeaders());
         restTemplate.exchange(addBookUrl, HttpMethod.POST, entity, String.class).getBody();
     }
 
-    public static void updateBook(BookRequestModel book) {
-        String updateBookUrl = String.format("%s/books/%s", BASE_URL, book.getId());
-        entity = new HttpEntity<>(book, getHttpHeaders());
+    public static void updateBook(BookRequestModel bookDetails) {
+        String updateBookUrl = String.format("%s/books/%d", BASE_URL, bookDetails.getId());
+        entity = new HttpEntity<>(bookDetails, getHttpHeaders());
         restTemplate.exchange(updateBookUrl, HttpMethod.PUT, entity, String.class).getBody();
 
     }
 
     public static void deleteBook(Long id) {
-        String deleteBookUrl = String.format("%s/books/%s", BASE_URL, id);
+        String deleteBookUrl = String.format("%s/books/%d", BASE_URL, id);
         entity = new HttpEntity<>(getHttpHeaders());
         restTemplate.exchange(deleteBookUrl, HttpMethod.DELETE, entity, String.class).getBody();
     }
 
-    public static void registerUser(UserDetailsRequestModel user) {
+    public static void registerUser(UserDetailsRequestModel userDetails) {
         String registerUrl = String.format("%s/users", BASE_URL);
         // Prepare request body
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Send request
-        HttpEntity<UserDetailsRequestModel> request = new HttpEntity<>(user, headers);
+        HttpEntity<UserDetailsRequestModel> request = new HttpEntity<>(userDetails, headers);
         restTemplate.exchange(registerUrl, HttpMethod.POST, request, String.class).getBody();
     }
 

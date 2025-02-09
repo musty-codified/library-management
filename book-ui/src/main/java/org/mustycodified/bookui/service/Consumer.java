@@ -70,5 +70,9 @@ public class Consumer {
         return loginResponse;
     }
 
+    public static void clearAuthToken() {
+        AUTH_TOKEN = "";
+        System.out.println("Authentication token cleared.");
+    }
 
 }

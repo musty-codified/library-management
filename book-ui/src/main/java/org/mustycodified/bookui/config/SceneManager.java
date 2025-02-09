@@ -31,4 +31,9 @@ public class SceneManager {
             e.printStackTrace();
         }
     }
+
+    public static void logout() {
+        System.out.println("User logged out.");
+        switchScene("login-view.fxml", "User Login");
+    }
 }
