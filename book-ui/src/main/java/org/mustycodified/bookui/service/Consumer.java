@@ -17,18 +17,18 @@ public class Consumer {
 
     private static final String BASE_URL = "http://localhost:8000/library-app-ws/api/v1";
     private static String AUTH_TOKEN = "";
-
     private static final RestTemplate restTemplate = new RestTemplate();
     private static final Log log = LogFactory.getLog(Consumer.class);
 
-    public static boolean loginUser(UserLoginRequestModel login) {
+    public static boolean loginUser(UserLoginRequestModel loginDetails) {
         String loginUrl = String.format("%s/auth/login", BASE_URL);
         // Prepare request body
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Send request
-        HttpEntity<UserLoginRequestModel> request = new HttpEntity<>(login, headers);
+        HttpEntity<UserLoginRequestModel> request = new HttpEntity<>(loginDetails, headers);
+        @SuppressWarnings("unchecked")
         HashMap<String, Object> responseMap = (HashMap<String, Object>) restTemplate.exchange(loginUrl, HttpMethod.POST, request, Map.class).getBody();
         LoginResponse loginResponse = parseResponse(responseMap);
         AUTH_TOKEN = loginResponse.getAccessToken();

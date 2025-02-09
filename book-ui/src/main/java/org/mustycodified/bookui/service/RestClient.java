@@ -3,6 +3,8 @@ package org.mustycodified.bookui.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.mustycodified.bookui.UIUtils;
 import org.mustycodified.bookui.config.RestTemplateResponseErrorHandler;
 import org.mustycodified.bookui.model.UIResponse;
@@ -21,8 +23,8 @@ public class RestClient {
     private static final String BASE_URL = "http://localhost:8000/library-app-ws/api/v1";
     private static final RestTemplate restTemplate = new RestTemplate();
     private static final ObjectMapper mapper = new ObjectMapper();
-
-    static HttpEntity<BookRequestModel> entity;
+    private static final Log log = LogFactory.getLog(RestClient.class);
+    private static HttpEntity<BookRequestModel> entity;
 
     public static UIResponse.Wrapper<List<BookResponse>> searchBooks(String searchText, int pageNumber, int pageSize) {
         String searchUrl = String.format("%s/books?searchText=%s&pageNumber=%d&pageSize=%d",
@@ -31,26 +33,41 @@ public class RestClient {
                 pageNumber,
                 pageSize);
 
-        Integer totalPages;
-        Integer totalItems;
-        Integer currentPage;
+        Integer totalPages = 1;
+        Integer totalItems = 1;
+        Integer currentPage = 1;
+        List<Map<String, Object>> mapList = null;
 
-        entity = new HttpEntity<>(getHttpHeaders());
-        String jsonString = restTemplate.exchange(searchUrl, HttpMethod.GET, entity, String.class).getBody();
-        Map<String, Object> responseMap;
-        Map<String, Object> dataMap;
-        List<Map<String, Object>> mapList;
         try {
-            responseMap = mapper.readValue(jsonString, new TypeReference<>() {
-            });
-            dataMap = (Map<String, Object>) responseMap.get("data");
-            totalPages = (Integer) dataMap.get("totalPages");
-            totalItems = (Integer) dataMap.get("totalItems");
-            currentPage = (Integer) dataMap.get("currentPage");
-            mapList = (List<Map<String, Object>>) dataMap.get("content");
+            entity = new HttpEntity<>(getHttpHeaders());
+            String jsonString = restTemplate.exchange(searchUrl, HttpMethod.GET, entity, String.class).getBody();
+
+            Map<String, Object> responseMap = mapper.readValue(jsonString, new TypeReference<>() {});
+            @SuppressWarnings("unchecked")
+            Map<String, Object> dataMap = (Map<String, Object>) responseMap.get("data");
+
+            if (dataMap != null) {
+                mapList = (List<Map<String, Object>>) dataMap.get("content");
+
+                totalPages = (Integer) dataMap.getOrDefault("totalPages", 1);
+                totalItems = (Integer) dataMap.getOrDefault("totalItems", 1);
+                currentPage = (Integer) dataMap.getOrDefault("currentPage", 1);
+            }
+
+        } catch (HttpClientErrorException.NotFound e) {
+            UIUtils.showErrorDialog("Error", "Resource Not Found", "The requested resource could not be found. Try a different search");
+            return new UIResponse.Wrapper<>(Collections.emptyList(), totalPages, totalItems, currentPage);
+        } catch (HttpClientErrorException e) {
+            UIUtils.showErrorDialog("Error", "HTTP Error", "A client error occurred: " + e.getMessage());
+            return new UIResponse.Wrapper<>(Collections.emptyList(), totalPages, totalItems, currentPage);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to parse JSON response", e);
         }
+
+        if (mapList == null) {
+            return new UIResponse.Wrapper<>(Collections.emptyList(), totalPages, totalItems, currentPage);
+        }
+
         List<BookResponse> bookList = parseBookMap(mapList);
         return new UIResponse.Wrapper<>(bookList, totalPages, totalItems, currentPage);
     }
@@ -67,6 +84,7 @@ public class RestClient {
         restTemplate.exchange(updateBookUrl, HttpMethod.PUT, entity, String.class).getBody();
 
     }
+
     public static void deleteBook(Long id) {
         String deleteBookUrl = String.format("%s/books/%d", BASE_URL, id);
         entity = new HttpEntity<>(getHttpHeaders());
