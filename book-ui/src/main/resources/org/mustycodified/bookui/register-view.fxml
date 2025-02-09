@@ -7,7 +7,7 @@
       fx:controller="org.mustycodified.bookui.controller.UserController"
       alignment="CENTER" style="-fx-padding: 20;">
     <HBox alignment="CENTER">
-        <Label text="First Name:"/>
+        <Label text="First Name: "/>
         <TextField fx:id="firstNameField" promptText="Enter First Name"/>
     </HBox >
 

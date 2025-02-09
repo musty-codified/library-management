@@ -16,8 +16,6 @@ public class LoginController {
     private void loginUser() {
         UserLoginRequestModel login = new UserLoginRequestModel(emailField.getText(), passwordField.getText());
         boolean loginSuccess =  Consumer.loginUser(login);
-        emailField.clear();
-        passwordField.clear();
         if ( loginSuccess) {
             SceneManager.switchScene("book-view.fxml", "Library Management System");
         } else {

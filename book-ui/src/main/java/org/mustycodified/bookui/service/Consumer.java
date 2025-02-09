@@ -32,13 +32,12 @@ public class Consumer {
         HashMap<String, Object> responseMap = (HashMap<String, Object>) restTemplate.exchange(loginUrl, HttpMethod.POST, request, Map.class).getBody();
         LoginResponse loginResponse = parseResponse(responseMap);
         AUTH_TOKEN = loginResponse.getAccessToken();
-        log.info(AUTH_TOKEN);
         return Boolean.TRUE.equals(responseMap.get("success"));
     }
 
     public static HttpHeaders getHttpHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
-        System.out.println(AUTH_TOKEN);
+        log.info(AUTH_TOKEN);
         httpHeaders.add("Authorization", "Bearer " + AUTH_TOKEN);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         return httpHeaders;
