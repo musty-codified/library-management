@@ -39,6 +39,7 @@
         <Button fx:id="updateButton" text="Update" onAction="#updateBook" style="-fx-padding: 5;"/>
         <Button fx:id="deleteButton" text="Delete" onAction="#deleteBook" style="-fx-padding: 5;"/>
         <Button fx:id="refreshButton" text="Refresh" onAction="#loadBooks" style="-fx-padding: 5;"/>
+        <Button fx:id="logoutButton" text="Logout" onAction="#logout" style="-fx-padding: 15;"/>
 
     </HBox>
 

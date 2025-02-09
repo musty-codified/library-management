@@ -21,6 +21,9 @@ import java.util.List;
 
 public class BookController {
     private static final Log log = LogFactory.getLog(BookController.class);
+
+    @FXML
+    public Button logoutButton;
     @FXML
     private TableView<BookResponse> bookTable;
     private ObservableList<BookResponse> books = FXCollections.observableArrayList();
@@ -36,7 +39,6 @@ public class BookController {
     private TextField isbnField;
     @FXML
     private TextField searchField;
-
     @FXML
     private Button addButton;
     @FXML
@@ -47,9 +49,6 @@ public class BookController {
     private Button refreshButton = new Button("Refresh");
     @FXML
     private Button searchButton = new Button("Search");
-
-    @FXML
-    private Button logoutButton = new Button("Log Out");
 
     @FXML
     TableColumn<BookResponse, String> titleColumn;
@@ -257,4 +256,6 @@ public class BookController {
         Consumer.clearAuthToken();
         SceneManager.logout();
     }
+
+
 }

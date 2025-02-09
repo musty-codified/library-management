@@ -28,6 +28,11 @@
     -fx-text-fill: white;
 }
 
+#logoutButton {
+    -fx-background-color: #607D8B;
+    -fx-text-fill: white;
+}
+
 #prevButton, #nextButton {
     -fx-background-color: #607D8B;
     -fx-text-fill: white;
