@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.mustycodified.bookui.model.ApiResponse;
-import org.mustycodified.bookui.model.request.Book;
-import org.mustycodified.bookui.model.request.User;
+import org.mustycodified.bookui.model.request.BookRequestModel;
+import org.mustycodified.bookui.model.request.UserDetailsRequestModel;
 import org.mustycodified.bookui.model.response.BookResponse;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -18,7 +18,7 @@ public class RestClient {
     private static final String BASE_URL = "http://localhost:8000/library-app-ws/api/v1";
     private static final RestTemplate restTemplate = new RestTemplate();
 
-    static HttpEntity<Book> entity;
+    static HttpEntity<BookRequestModel> entity;
 
     public static List<BookResponse> fetchBooks() {
         String fetchUrl = String.format("%s/books/list", BASE_URL);
@@ -86,13 +86,13 @@ public class RestClient {
 
     }
 
-    public static void addBook(Book book) {
+    public static void addBook(BookRequestModel book) {
         String addBookUrl = String.format("%s/books", BASE_URL);
         entity = new HttpEntity<>(book, getHttpHeaders());
         restTemplate.exchange(addBookUrl, HttpMethod.POST, entity, String.class).getBody();
     }
 
-    public static void updateBook(Book book) {
+    public static void updateBook(BookRequestModel book) {
         String updateBookUrl = String.format("%s/books/%s", BASE_URL, book.getId());
         entity = new HttpEntity<>(book, getHttpHeaders());
         restTemplate.exchange(updateBookUrl, HttpMethod.PUT, entity, String.class).getBody();
@@ -105,14 +105,14 @@ public class RestClient {
         restTemplate.exchange(deleteBookUrl, HttpMethod.DELETE, entity, String.class).getBody();
     }
 
-    public static void registerUser(User user) {
+    public static void registerUser(UserDetailsRequestModel user) {
         String registerUrl = String.format("%s/users", BASE_URL);
         // Prepare request body
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Send request
-        HttpEntity<User> request = new HttpEntity<>(user, headers);
+        HttpEntity<UserDetailsRequestModel> request = new HttpEntity<>(user, headers);
         restTemplate.exchange(registerUrl, HttpMethod.POST, request, String.class).getBody();
     }
 

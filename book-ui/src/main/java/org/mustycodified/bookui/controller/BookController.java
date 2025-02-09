@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.mustycodified.bookui.model.ApiResponse;
-import org.mustycodified.bookui.model.request.Book;
+import org.mustycodified.bookui.model.request.BookRequestModel;
 import org.mustycodified.bookui.model.response.BookResponse;
 import org.mustycodified.bookui.service.RestClient;
 
@@ -148,7 +148,6 @@ public class BookController {
         deleteButton.setOnAction(e -> deleteBook());
         refreshButton.setOnAction(e -> loadBooks());
 
-
         // Search functionality
         searchButton.setOnAction(e -> {
             String searchText = searchField.getText();
@@ -183,12 +182,13 @@ public class BookController {
     //Add a Book
     @FXML
     private void addBook() {
-        Book newBook = new Book(
+        BookRequestModel newBook = new BookRequestModel(
                 titleField.getText(),
                 authorField.getText(),
                 isbnField.getText(),
                 Integer.parseInt(quantityField.getText()),
                 Double.parseDouble(priceField.getText()));
+        clearBookField();
         RestClient.addBook(newBook);
         loadBooks();
     }
@@ -203,15 +203,16 @@ public class BookController {
             selectedBook.setQuantity(Integer.parseInt(quantityField.getText()));
             selectedBook.setIsbn(isbnField.getText());
 
-            // Convert BookResponse to Book for the backend request
-            Book bookToUpdate = new Book(
+            // Convert BookResponseDto to Book for the backend request
+            BookRequestModel bookToUpdate = new BookRequestModel(
                     selectedBook.getTitle(),
                     selectedBook.getAuthor(),
                     selectedBook.getIsbn(),
                     selectedBook.getQuantity(),
-                    0.0
+                    Double.parseDouble(priceField.getText())
             );
             bookToUpdate.setId(selectedBook.getId());
+            clearBookField();
             RestClient.updateBook(bookToUpdate);
             loadBooks();
         }
@@ -230,5 +231,13 @@ public class BookController {
     public void searchBooks(ActionEvent actionEvent) {
         String searchText = searchField.getText();
         searchBooks(searchText, currentPage, totalPages);
+    }
+
+    private void clearBookField() {
+        titleField.clear();
+        authorField.clear();
+        isbnField.clear();
+        quantityField.clear();
+        priceField.clear();
     }
 }

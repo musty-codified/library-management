@@ -3,7 +3,7 @@ package org.mustycodified.bookui.model.request;
 
 import javafx.beans.property.*;
 
-public class User {
+public class UserDetailsRequestModel {
 
     private LongProperty id = new SimpleLongProperty();
     private StringProperty firstName = new SimpleStringProperty();
@@ -12,10 +12,10 @@ public class User {
     private StringProperty password = new SimpleStringProperty();
     private StringProperty phoneNumber = new SimpleStringProperty();
 
-    public User() {
+    public UserDetailsRequestModel() {
     }
 
-    public User(String firstName, String lastName, String email, String password, String phoneNumber) {
+    public UserDetailsRequestModel(String firstName, String lastName, String email, String password, String phoneNumber) {
      this.setFirstName(firstName);
      this.setLastName(lastName);
      this.setEmail(email);

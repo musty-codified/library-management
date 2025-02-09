@@ -3,14 +3,14 @@ package org.mustycodified.bookui.model.request;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Login {
+public class UserLoginRequestModel {
     private StringProperty email = new SimpleStringProperty();
     private StringProperty password = new SimpleStringProperty();
 
-    public Login() {
+    public UserLoginRequestModel() {
     }
 
-    public Login( String email, String password) {
+    public UserLoginRequestModel(String email, String password) {
 
         this.setEmail(email);
         this.setPassword(password);

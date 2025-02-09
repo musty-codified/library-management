@@ -3,7 +3,7 @@ package org.mustycodified.bookui.model.request;
 import javafx.beans.property.*;
 
 
-public class Book {
+public class BookRequestModel {
 
     private LongProperty id = new SimpleLongProperty();
     private StringProperty title = new SimpleStringProperty();
@@ -13,7 +13,7 @@ public class Book {
     private DoubleProperty price = new SimpleDoubleProperty();
 
 
-    public Book(String title, String author, String isbn, Integer quantity, Double price) {
+    public BookRequestModel(String title, String author, String isbn, Integer quantity, Double price) {
         this.setTitle(title);
         this.setAuthor(author);
         this.setIsbn(isbn);

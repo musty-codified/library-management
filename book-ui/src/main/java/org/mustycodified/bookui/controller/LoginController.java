@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import org.mustycodified.bookui.config.SceneManager;
-import org.mustycodified.bookui.model.request.Login;
+import org.mustycodified.bookui.model.request.UserLoginRequestModel;
 import org.mustycodified.bookui.service.Consumer;
 
 public class LoginController {
@@ -14,7 +14,7 @@ public class LoginController {
 
     @FXML
     private void loginUser() {
-        Login login = new Login(emailField.getText(), passwordField.getText());
+        UserLoginRequestModel login = new UserLoginRequestModel(emailField.getText(), passwordField.getText());
         boolean loginSuccess =  Consumer.loginUser(login);
         emailField.clear();
         passwordField.clear();

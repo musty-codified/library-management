@@ -2,7 +2,7 @@ package org.mustycodified.bookui.service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mustycodified.bookui.model.request.Login;
+import org.mustycodified.bookui.model.request.UserLoginRequestModel;
 import org.mustycodified.bookui.model.response.LoginResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,14 +21,14 @@ public class Consumer {
     private static final RestTemplate restTemplate = new RestTemplate();
     private static final Log log = LogFactory.getLog(Consumer.class);
 
-    public static boolean loginUser(Login login) {
+    public static boolean loginUser(UserLoginRequestModel login) {
         String loginUrl = String.format("%s/auth/login", BASE_URL);
         // Prepare request body
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Send request
-        HttpEntity<Login> request = new HttpEntity<>(login, headers);
+        HttpEntity<UserLoginRequestModel> request = new HttpEntity<>(login, headers);
         HashMap<String, Object> responseMap = (HashMap<String, Object>) restTemplate.exchange(loginUrl, HttpMethod.POST, request, Map.class).getBody();
         LoginResponse loginResponse = parseResponse(responseMap);
         AUTH_TOKEN = loginResponse.getAccessToken();

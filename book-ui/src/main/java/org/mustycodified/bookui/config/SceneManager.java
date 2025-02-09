@@ -23,6 +23,7 @@ public class SceneManager {
 
             // Add CSS file
             scene.getStylesheets().add(SceneManager.class.getResource("/org/mustycodified/bookui/styles.css").toExternalForm());
+            scene.getStylesheets().add(SceneManager.class.getResource("/org/mustycodified/bookui/users.css").toExternalForm());
 
             window.setScene(scene);
             window.show();
